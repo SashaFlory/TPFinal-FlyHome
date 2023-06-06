@@ -1,4 +1,5 @@
-import HelloWorldScene from "./assets/scenes/HelloWorldScene.js";
+import Precarga from "./assets/scenes/Precarga.js";
+import Nivel1 from "./assets/scenes/Nivel1.js";
 
 // Create a new Phaser config object
 const config = {
@@ -9,8 +10,8 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     min: {
-      width: 800,
-      height: 600,
+      width: 1280,
+      height: 720,
     },
     max: {
       width: 1600,
@@ -27,7 +28,7 @@ const config = {
   // List of scenes to load
   // Only the first scene will be shown
   // Remember to import the scene before adding it to the list
-  scene: [HelloWorldScene],
+  scene: [Precarga, Nivel1],
 };
 
 // Create a new Phaser game instance
