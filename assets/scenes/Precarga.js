@@ -5,15 +5,23 @@ export default class Precarga extends Phaser.Scene {
     super("precarga");
   }
 
-  init() {
-    // this is called before the scene is created
-    // init variables
-    // take data passed from other scenes
-    // data object param {}
-  }
-
   preload() {
     // load assets
+    this.load.tilemapTiledJSON("map1", "./public/tilemaps/nivel1.json");
+    this.load.image("tilesCielo1", "./public/images/Fondo1.png");
+    this.load.image("tilesParallax", "./public/images/Parallax1.png");
+    
+    this.load.spritesheet("birdie", "./public/images/Personaje.png", {
+      frameWidth: 205,
+      frameHeight: 146,
+    });
+
+    this.load.spritesheet("aguila", "./public/images/Aguila.png", {
+      frameWidth: 359,
+      frameHeight: 166,
+    });
+
+
   }
 
   create() {
