@@ -16,6 +16,12 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("bReintentar-P", "./public/images/BotonReintentarP.png");
     this.load.image("bMenu", "./public/images/BotonMenu.png");
     this.load.image("bMenu-P", "./public/images/BotonMenuP.png");
+    this.load.image("bVolver", "./public/images/BotonVolver.png");
+    this.load.image("bVolver-P", "./public/images/BotonVolver-P.png");
+    this.load.image("bSiguiente", "./public/images/BotonSiguiente.png");
+    this.load.image("bSiguiente-P", "./public/images/BotonSiguiente-P.png");
+    this.load.image("tutorial", "./public/images/TutorialPP.png");
+    this.load.image("creditos", "./public/images/CreditosPP.png");
     
     this.load.spritesheet("birdie", "./public/images/Personaje.png", {
       frameWidth: 210,
@@ -25,6 +31,11 @@ export default class Precarga extends Phaser.Scene {
     this.load.spritesheet("aguila", "./public/images/Aguila.png", {
       frameWidth: 359,
       frameHeight: 166,
+    });
+
+    this.load.spritesheet("llegada", "./public/images/Nido.png", {
+      frameWidth: 223.5,
+      frameHeight: 129,
     });
 
   }
@@ -41,6 +52,13 @@ export default class Precarga extends Phaser.Scene {
     this.anims.create({
       key: "aguilaVuela",
       frames: this.anims.generateFrameNumbers("aguila", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "pioPio",
+      frames: this.anims.generateFrameNumbers("llegada", { start: 0, end: 1 }),
       frameRate: 5,
       repeat: -1,
     });
