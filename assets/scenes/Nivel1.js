@@ -6,10 +6,9 @@ export default class Nivel1 extends Phaser.Scene {
   }
 
   init() {
-    // this is called before the scene is created
-    // init variables
-    // take data passed from other scenes
-    // data object param {}
+    this.vidas = 3;
+    this.ganador = false;
+    this.perdedor = false;
   }
 
   create() {
@@ -48,7 +47,17 @@ export default class Nivel1 extends Phaser.Scene {
       }
     });
 
+    this.physics.add.overlap(this.jugador, this.enemigos, this.vidaMenos, null, this);
+
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.vidaTexto = this.add.text(20, 20, "Vidas: 3", {
+      fontSize: "50px",
+      fill: "#111111"
+    })
+
+    this.vidaTexto.setScrollFactor(0);
+
 
     //add camera to follow player
     this.cameras.main.startFollow(this.jugador);
@@ -60,8 +69,34 @@ export default class Nivel1 extends Phaser.Scene {
 
   update() {
     // update game objects
+    this.jugador.anims.play("birdieVuela", true);
+
     if (this.cursors.right.isDown) {
       this.jugador.setVelocityX(500);
+    } else if (this.cursors.up.isDown) {
+      this.jugador.setVelocityY(-400);
+    } else if (this.cursors.down.isDown) {
+      this.jugador.setVelocityY(400);
+    } else {
+      this.jugador.setVelocityY(0);
+    };
+
+  }
+
+  vidaMenos(jugador, enemigo) {
+    enemigo.disableBody(true, true);
+
+    this.vidas--
+
+    this.vidaTexto.setText(
+      "Vidas: " +
+      this.vidas
+    )
+
+    if(this.vidas<=0) {
+      this.perdedor = true;
+      this.scene.launch("perder");
+      this.scene.pause("nivel1")
     }
   }
 }
