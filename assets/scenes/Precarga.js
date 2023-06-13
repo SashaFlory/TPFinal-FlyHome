@@ -1,7 +1,5 @@
 export default class Precarga extends Phaser.Scene {
   constructor() {
-    // key of the scene
-    // the key will be used to start the scene by other scenes
     super("precarga");
   }
 
@@ -11,8 +9,11 @@ export default class Precarga extends Phaser.Scene {
 
     //FONDO Y PARALLAX
     this.load.tilemapTiledJSON("map1", "./public/tilemaps/nivel1.json");
+    this.load.tilemapTiledJSON("map2", "./public/tilemaps/nivel2.json");
     this.load.image("tilesCielo1", "./public/images/Fondo1.png");
     this.load.image("tilesParallax1", "./public/images/Parallax1.png");
+    this.load.image("tilesCielo2", "./public/images/Fondo2.png");
+    this.load.image("tilesParallax2", "./public/images/Parallax2.png");
 
     //INTERFAZ
     this.load.image("vidas3", "./public/images/Corazon3.png");
@@ -49,6 +50,10 @@ export default class Precarga extends Phaser.Scene {
       frameWidth: 359,
       frameHeight: 166,
     });
+    this.load.spritesheet("avispa", "./public/images/Avispa.png", {
+      frameWidth: 186,
+      frameHeight: 148,
+    });
     this.load.spritesheet("llegada", "./public/images/Nido.png", {
       frameWidth: 223.5,
       frameHeight: 129,
@@ -73,6 +78,13 @@ export default class Precarga extends Phaser.Scene {
     this.anims.create({
       key: "aguilaVuela",
       frames: this.anims.generateFrameNumbers("aguila", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "avispaVuela",
+      frames: this.anims.generateFrameNumbers("avispa", { start: 0, end: 1 }),
       frameRate: 5,
       repeat: -1,
     });

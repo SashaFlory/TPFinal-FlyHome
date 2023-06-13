@@ -49,9 +49,9 @@ export default class Nivel1 extends Phaser.Scene {
       }
     });
 
-    this.enemigos.children.each((aguila) => {
-      aguila.anims.play("aguilaVuela");
-    });
+    // this.enemigos.children.each((aguila) => {
+    //   aguila.anims.play("aguilaVuela");
+    // });
 
     this.physics.add.overlap(this.jugador, this.enemigos, this.vidaMenos, null, this);
 
@@ -84,25 +84,28 @@ export default class Nivel1 extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    this.vidaTexto = this.add.text(20, 20, "Vidas: 3", {
+    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+
+    this.cuentaTexto = this.add.text(screenCenterX, screenCenterY, "3", {
+      fontFamily: "impact",
+      fontSize: "300px",
+      fill: "#111111"
+    }).setOrigin(0.5);
+
+    this.puntuacionUI = this.add.image(800, 55, "uva1").setSize(0.01);
+    this.frutaTexto = this.add.text(855, 20, "0", {
+      fontFamily: "impact",
       fontSize: "50px",
       fill: "#111111"
     })
-    this.cuentaTexto = this.add.text(300, 20, "cuenta regresiva: 3", {
-      fontSize: "50px",
-      fill: "#111111"
-    })
-    this.frutaTexto = this.add.text(1000, 20, "Puntos: 0", {
-      fontSize: "50px",
-      fill: "#111111"
-    })
-    this.vidaTexto.setScrollFactor(0);
-    this.cuentaTexto.setScrollFactor(0);
+
+    this.puntuacionUI.setScrollFactor(0);
     this.frutaTexto.setScrollFactor(0);
 
-    this.tres = this.add.image(150, 100, "vidas3");
-    this.dos = this.add.image(110, 100, "vidas2");
-    this.uno = this.add.image(70, 100, "vidas1");
+    this.tres = this.add.image(150, 50, "vidas3");
+    this.dos = this.add.image(110, 50, "vidas2");
+    this.uno = this.add.image(70, 50, "vidas1");
 
     this.tres.setScrollFactor(0);
     this.dos.setScrollFactor(0);
@@ -127,7 +130,11 @@ export default class Nivel1 extends Phaser.Scene {
 
   update() {
     
-    
+    if (this.cursors.space.isDown) {
+      this.scene.pause("nivel1");
+      this.scene.launch("pausa")
+    }
+
     if (this.cursors.up.isDown) {
       this.jugador.setVelocityY(-MOVIMIENTOS.y);
     } else if (this.cursors.down.isDown) {
@@ -145,7 +152,6 @@ export default class Nivel1 extends Phaser.Scene {
     console.log(this.cuentaRegresiva)
 
     this.cuentaTexto.setText(
-      "cuenta regresiva: " +
       this.cuentaRegresiva
     )
 
@@ -153,6 +159,10 @@ export default class Nivel1 extends Phaser.Scene {
       this.jugador.setVelocityX(500);
       this.jugador.anims.play("birdieVuela", true);
       this.cuentaTexto.setText("")
+
+      this.enemigos.children.each((aguila) => {
+        aguila.anims.play("aguilaVuela");
+      });
     }
   }
 
@@ -164,11 +174,8 @@ export default class Nivel1 extends Phaser.Scene {
     this.jugador.anims.stop(true);
     this.jugador.anims.play("birdieChoca", true);   //hacer que dure menos
 
-    this.vidaTexto.setText(
-      "Vidas: " +
-      this.vidas
-    )
-
+    console.log("vida perdida -- vidas totales:", this.vidas);
+   
     if(this.vidas==2){
       this.tres.visible = false;
     } else if (this.vidas==1) {
@@ -179,20 +186,17 @@ export default class Nivel1 extends Phaser.Scene {
       this.scene.pause("nivel1")
     }
 
-    // if(this.vidas<=0) {
-    //   this.scene.launch("perder");
-    //   this.scene.pause("nivel1")
-    // }
   }
 
   frutaRecolectada(jugador, fruta) {
     fruta.disableBody(true, true);
 
     this.puntaje += fruta.puntuacion;
-    // this.puntaje++
+
+    console.log("fruta recolectada:", fruta, "puntos obtenidos:", fruta.puntuacion);
+    console.log("puntos totales:", this.puntaje);
 
     this.frutaTexto.setText(
-      "Puntos: " +
       this.puntaje
     );
 
@@ -200,6 +204,6 @@ export default class Nivel1 extends Phaser.Scene {
 
   esGanador(jugador, nido) {
     this.scene.pause("nivel1");
-    this.scene.launch("nivelSuperado");
+    this.scene.launch("nivelSuperado", {puntaje: this.puntaje});
   }
 }

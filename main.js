@@ -6,6 +6,7 @@ import Tutorial from "./assets/scenes/Tutorial.js";
 import Creditos from "./assets/scenes/Creditos.js";
 import NivelSuperado from "./assets/scenes/NivelSuperado.js";
 import Nivel2 from "./assets/scenes/Nivel2.js";
+import Pausa from "./assets/scenes/Pausa.js";
 
 // Create a new Phaser config object
 const config = {
@@ -34,7 +35,7 @@ const config = {
   // List of scenes to load
   // Only the first scene will be shown
   // Remember to import the scene before adding it to the list
-  scene: [Precarga, MenuPrincipal, Nivel1, Perder, Tutorial, Creditos, NivelSuperado, Nivel2],
+  scene: [Precarga, MenuPrincipal, Nivel1, Nivel2, Pausa, Perder, Tutorial, Creditos, NivelSuperado],
 };
 
 // Create a new Phaser game instance
