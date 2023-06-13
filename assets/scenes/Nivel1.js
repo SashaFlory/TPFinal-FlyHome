@@ -1,4 +1,4 @@
-import { MOVIMIENTOS } from "../../utils.js";
+import { MOVIMIENTOS, FRUTA_PUNTOS } from "../../utils.js";
 
 export default class Nivel1 extends Phaser.Scene {
   constructor() {
@@ -7,8 +7,6 @@ export default class Nivel1 extends Phaser.Scene {
 
   init() {
     this.vidas = 3;
-    this.ganador = false;
-    this.perdedor = false;
     this.puntaje = 0;
 
     this.cuentaRegresiva = 3;
@@ -50,6 +48,11 @@ export default class Nivel1 extends Phaser.Scene {
         }
       }
     });
+
+    this.enemigos.children.each((aguila) => {
+      aguila.anims.play("aguilaVuela");
+    });
+
     this.physics.add.overlap(this.jugador, this.enemigos, this.vidaMenos, null, this);
 
     objectosLayer.objects.forEach((objData) => {
@@ -58,22 +61,25 @@ export default class Nivel1 extends Phaser.Scene {
       switch (name) {
         case "uva1": {
           const uva1 = this.frutas.create(x, y, "uva1");
+          uva1.puntuacion = FRUTA_PUNTOS.puntosU1;
           break;
         }
       }
     });
-    // objectosLayer.objects.forEach((objData) => {
-    //   //console.log(objData.name, objData.type, objData.x, objData.y);
-    //   const { x = 0, y = 0, name } = objData;
-    //   switch (name) {
-    //     case "uva2": {
-    //       const uva2 = this.frutas.create(x, y, "uva2");
-    //       break;
-    //     }
-    //   }
-    // });
-    this.physics.add.overlap(this.jugador, this.frutas, this.frutaRecolectada, null, this);
 
+     objectosLayer.objects.forEach((objData) => {
+       //console.log(objData.name, objData.type, objData.x, objData.y);
+       const { x = 0, y = 0, name } = objData;
+       switch (name) {
+         case "uva2": {
+           const uva2 = this.frutas.create(x, y, "uva2");
+           uva2.puntuacion = FRUTA_PUNTOS.puntosU2;
+           break;
+        }
+      }
+    });
+
+    this.physics.add.overlap(this.jugador, this.frutas, this.frutaRecolectada, null, this);
     this.physics.add.overlap(this.jugador, this.nido, this.esGanador, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -94,6 +100,15 @@ export default class Nivel1 extends Phaser.Scene {
     this.cuentaTexto.setScrollFactor(0);
     this.frutaTexto.setScrollFactor(0);
 
+    this.tres = this.add.image(150, 100, "vidas3");
+    this.dos = this.add.image(110, 100, "vidas2");
+    this.uno = this.add.image(70, 100, "vidas1");
+
+    this.tres.setScrollFactor(0);
+    this.dos.setScrollFactor(0);
+    this.uno.setScrollFactor(0);
+
+
     //add camera to follow player
     this.cameras.main.startFollow(this.jugador);
     // world bounds
@@ -112,8 +127,7 @@ export default class Nivel1 extends Phaser.Scene {
 
   update() {
     
-    this.jugador.anims.play("birdieVuela", true);
-
+    
     if (this.cursors.up.isDown) {
       this.jugador.setVelocityY(-MOVIMIENTOS.y);
     } else if (this.cursors.down.isDown) {
@@ -137,30 +151,45 @@ export default class Nivel1 extends Phaser.Scene {
 
     if(this.cuentaRegresiva <= 0) {
       this.jugador.setVelocityX(500);
+      this.jugador.anims.play("birdieVuela", true);
       this.cuentaTexto.setText("")
     }
   }
 
   vidaMenos(jugador, enemigo) {
     enemigo.disableBody(true, true);
+    
     this.vidas--
+    
+    this.jugador.anims.stop(true);
+    this.jugador.anims.play("birdieChoca", true);   //hacer que dure menos
 
     this.vidaTexto.setText(
       "Vidas: " +
       this.vidas
     )
 
-    if(this.vidas<=0) {
-      this.perdedor = true;
+    if(this.vidas==2){
+      this.tres.visible = false;
+    } else if (this.vidas==1) {
+      this.dos.visible = false;
+    } else if(this.vidas<=0) {
+      this.uno.visible = false;
       this.scene.launch("perder");
       this.scene.pause("nivel1")
     }
+
+    // if(this.vidas<=0) {
+    //   this.scene.launch("perder");
+    //   this.scene.pause("nivel1")
+    // }
   }
 
   frutaRecolectada(jugador, fruta) {
     fruta.disableBody(true, true);
 
-    this.puntaje++;
+    this.puntaje += fruta.puntuacion;
+    // this.puntaje++
 
     this.frutaTexto.setText(
       "Puntos: " +

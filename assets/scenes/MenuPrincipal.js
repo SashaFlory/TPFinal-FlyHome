@@ -12,12 +12,14 @@ export default class MenuPrincipal extends Phaser.Scene {
 
       //JUEGO
       let botonJ = this.add.text(850, 620, "JUGAR", {
+        fontFamily: "impact",
         fontSize: "60px",
         fill: "#111111",
       }).setInteractive()
 
       botonJ.on("pointerover", () => {
         this.add.text(850, 620, "JUGAR", {
+          fontFamily: "impact",
           fontSize: "60px",
           fill: "#FFFFFF",
         });})
@@ -27,18 +29,21 @@ export default class MenuPrincipal extends Phaser.Scene {
 
       botonJ.on("pointerout", () => {
         this.add.text(850, 620, "JUGAR", {
+          fontFamily: "impact",
           fontSize: "60px",
           fill: "#111111",
         });})
 
         //TUTORIAL
         let botonT = this.add.text(550, 900, "Tutorial", {
+          fontFamily: "impact",
           fontSize: "60px",
           fill: "#111111",
         }).setInteractive()
 
         botonT.on("pointerover", () => {
           this.add.text(550, 900, "Tutorial", {
+            fontFamily: "impact",
             fontSize: "60px",
             fill: "#FFFFFF",
           });})
@@ -49,18 +54,21 @@ export default class MenuPrincipal extends Phaser.Scene {
 
         botonT.on("pointerout", () => {
           this.add.text(550, 900, "Tutorial", {
+            fontFamily: "impact",
             fontSize: "60px",
             fill: "#111111",
           });})
 
           //CREDITOS
           let botonC = this.add.text(1050, 900, "Créditos", {
+            fontFamily: "impact",
             fontSize: "60px",
             fill: "#111111",
           }).setInteractive()
   
           botonC.on("pointerover", () => {
             this.add.text(1050, 900, "Créditos", {
+              fontFamily: "impact",
               fontSize: "60px",
               fill: "#FFFFFF",
             });})
@@ -71,6 +79,7 @@ export default class MenuPrincipal extends Phaser.Scene {
   
           botonC.on("pointerout", () => {
             this.add.text(1050, 900, "Créditos", {
+              fontFamily: "impact",
               fontSize: "60px",
               fill: "#111111",
             });})

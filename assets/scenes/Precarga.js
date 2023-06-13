@@ -14,6 +14,11 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("tilesCielo1", "./public/images/Fondo1.png");
     this.load.image("tilesParallax1", "./public/images/Parallax1.png");
 
+    //INTERFAZ
+    this.load.image("vidas3", "./public/images/Corazon3.png");
+    this.load.image("vidas2", "./public/images/Corazon2.png");
+    this.load.image("vidas1", "./public/images/Corazon1.png");
+
     //POP UPs
     this.load.image("perdiste", "./public/images/PerderPP.png");
     this.load.image("tutorial", "./public/images/TutorialPP.png");
@@ -37,8 +42,8 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("cereza", "./public/images/Cereza.png");
     
     this.load.spritesheet("birdie", "./public/images/Personaje.png", {
-      frameWidth: 210,
-      frameHeight: 146,
+      frameWidth: 218,
+      frameHeight: 152,
     });
     this.load.spritesheet("aguila", "./public/images/Aguila.png", {
       frameWidth: 359,
@@ -54,9 +59,15 @@ export default class Precarga extends Phaser.Scene {
   create() {
     this.anims.create({
       key: "birdieVuela",
-      frames: this.anims.generateFrameNumbers("birdie", { start: 0, end: 1 }),
-      frameRate: 5,
+      frames: this.anims.generateFrameNumbers("birdie", { start: 0, end: 11 }),
+      frameRate: 10,
       repeat: -1,
+    });
+
+    this.anims.create({
+      key: "birdieChoca",
+      frames: [{ key: "birdie", frame: 12 }],
+      frameRate: 20,
     });
 
     this.anims.create({
