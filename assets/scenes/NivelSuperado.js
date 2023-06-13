@@ -4,9 +4,10 @@ export default class NivelSuperado extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(960, 540, "");
+        this.add.image(960, 540, "superado");
        
-        let botonR = this.add.image(960, 600, "bReintentar").setInteractive();
+        //BOTON REINTENTAR
+        let botonR = this.add.image(800, 750, "bReintentar").setInteractive();
         botonR.on("pointerover", () => {
             botonR.setTexture("bReintentar-P");
         })
@@ -17,8 +18,21 @@ export default class NivelSuperado extends Phaser.Scene {
         botonR.on("pointerout", () => {
             botonR.setTexture("bReintentar");
         })
-
-        let botonM = this.add.image(960, 660, "bMenu").setInteractive();
+        //BOTON SIGUIENTE NIVEL
+        let botonS = this.add.image(1100, 750, "bSiguiente").setInteractive();
+        botonS.on("pointerover", () => {
+            botonS.setTexture("bSiguiente-P");
+        })
+        botonS.on("pointerdown", () => {
+            botonS.setTexture("bSiguiente-P");
+            this.scene.stop("nivel1");
+            this.scene.start("nivel2");
+        })
+        botonS.on("pointerout", () => {
+            botonS.setTexture("bSiguiente");
+        })
+        //BOTON MENU PRINCIPAL
+        let botonM = this.add.image(960, 800, "bMenu").setInteractive();
         botonM.on("pointerover", () => {
             botonM.setTexture("bMenu-P");
         })
@@ -30,8 +44,7 @@ export default class NivelSuperado extends Phaser.Scene {
         botonM.on("pointerout", () => {
             botonM.setTexture("bMenu");
         })
-
-        //BOTON SIGUIENTE NIVEL
+        
     }
   
   }
