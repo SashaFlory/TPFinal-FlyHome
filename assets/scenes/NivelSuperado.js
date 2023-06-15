@@ -3,8 +3,20 @@ export default class NivelSuperado extends Phaser.Scene {
       super("nivelSuperado");
     }
 
+    init(data) {
+        this.puntaje = data.puntaje;
+        console.log(data);
+
+    }
+
     create() {
         this.add.image(960, 540, "superado");
+
+        this.resumen = this.add.text(750, 400, "Puntos totales: ", {
+        fontFamily: "impact",
+        fontSize: "40px",
+        fill: "#111111"
+        });
        
         //BOTON REINTENTAR
         let botonR = this.add.image(800, 750, "bReintentar").setInteractive();
@@ -45,6 +57,13 @@ export default class NivelSuperado extends Phaser.Scene {
             botonM.setTexture("bMenu");
         })
         
+    }
+
+    update() {
+        this.resumen.setText(
+            "Puntos totales: " +
+            this.puntaje
+        );
     }
   
   }

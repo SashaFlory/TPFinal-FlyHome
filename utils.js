@@ -1,6 +1,8 @@
 const MOVIMIENTOS = {
-    x: 500,
-    y: 500
+    x1: 500,
+    x2: 650,
+    x3: 800,
+    y: 700
 };
 
 const FRUTA_PUNTOS = {

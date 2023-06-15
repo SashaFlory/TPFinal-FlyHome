@@ -1,14 +1,13 @@
 export default class MenuPrincipal extends Phaser.Scene {
     constructor() {
-      // key of the scene
-      // the key will be used to start the scene by other scenes
       super("menuPrincipal");
     }
 
     create() {
-      //PARA LAS ESCENAS TUTORIAL Y CRÉDITOS HACER THIS.SCENE.LAUNCH --> POP UP
       this.add.image(0, 0, "tilesCielo1").setScale(2);
       this.add.image(960, 320, "flyHome");
+
+      //PANTALLA COMPLETA
 
       //JUEGO
       let botonJ = this.add.text(850, 620, "JUGAR", {
