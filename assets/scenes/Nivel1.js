@@ -156,7 +156,7 @@ export default class Nivel1 extends Phaser.Scene {
     )
 
     if(this.cuentaRegresiva <= 0) {
-      this.jugador.setVelocityX(500);
+      this.jugador.setVelocityX(MOVIMIENTOS.x1);
       this.jugador.anims.play("birdieVuela", true);
       this.cuentaTexto.setText("")
 

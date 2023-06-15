@@ -14,6 +14,7 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("tilesParallax1", "./public/images/Parallax1.png");
     this.load.image("tilesCielo2", "./public/images/Fondo2.png");
     this.load.image("tilesParallax2", "./public/images/Parallax2.png");
+    this.load.image("tilesCielo3", "./public/images/Fondo3.png");
 
     //INTERFAZ
     this.load.image("vidas3", "./public/images/Corazon3.png");
@@ -47,8 +48,8 @@ export default class Precarga extends Phaser.Scene {
       frameHeight: 152,
     });
     this.load.spritesheet("aguila", "./public/images/Aguila.png", {
-      frameWidth: 359,
-      frameHeight: 166,
+      frameWidth: 365,
+      frameHeight: 150,
     });
     this.load.spritesheet("avispa", "./public/images/Avispa.png", {
       frameWidth: 186,
@@ -77,8 +78,8 @@ export default class Precarga extends Phaser.Scene {
 
     this.anims.create({
       key: "aguilaVuela",
-      frames: this.anims.generateFrameNumbers("aguila", { start: 0, end: 1 }),
-      frameRate: 5,
+      frames: this.anims.generateFrameNumbers("aguila", { start: 0, end: 3 }),
+      frameRate: 4,
       repeat: -1,
     });
 

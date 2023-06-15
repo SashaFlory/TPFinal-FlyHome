@@ -7,6 +7,8 @@ export default class MenuPrincipal extends Phaser.Scene {
       this.add.image(0, 0, "tilesCielo1").setScale(2);
       this.add.image(960, 320, "flyHome");
 
+      //PANTALLA COMPLETA
+
       //JUEGO
       let botonJ = this.add.text(850, 620, "JUGAR", {
         fontFamily: "impact",
@@ -22,7 +24,7 @@ export default class MenuPrincipal extends Phaser.Scene {
         });})
 
       botonJ.on("pointerdown", () => {
-        this.scene.start("nivel2");})
+        this.scene.start("nivel1");})
 
       botonJ.on("pointerout", () => {
         this.add.text(850, 620, "JUGAR", {

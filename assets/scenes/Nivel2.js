@@ -10,7 +10,6 @@ export default class Nivel2 extends Phaser.Scene {
   
       this.cuentaRegresiva = 3;
 
-      nivelActual = this.scene.Nivel2;
     }
   
     create() {
@@ -21,8 +20,9 @@ export default class Nivel2 extends Phaser.Scene {
   
       const fondoLayer = map.createLayer("fondo", capaFondo, 0, 0);
       const nubesLayer = map.createLayer("nubes", capaParallax, 0, 0);
-      const mediaLayer = map.createLayer("media", capaParallax, 0, 0);
-      const cercanaLayer = map.createLayer("cercana", capaParallax, 0, 0);
+      const lejanoLayer = map.createLayer("lejano", capaParallax, 0, 0);
+      const medioLayer = map.createLayer("medio", capaParallax, 0, 0);
+      const cercanoLayer = map.createLayer("cercano", capaParallax, 0, 0);
       const margenLayer = map.createLayer("margen", capaParallax, 0, 0);
   
       const objectosLayer = map.getObjectLayer("objetos");
@@ -148,7 +148,7 @@ export default class Nivel2 extends Phaser.Scene {
       )
   
       if(this.cuentaRegresiva <= 0) {
-        this.jugador.setVelocityX(500);
+        this.jugador.setVelocityX(MOVIMIENTOS.x2);
         this.jugador.anims.play("birdieVuela", true);
         this.cuentaTexto.setText("")
         
