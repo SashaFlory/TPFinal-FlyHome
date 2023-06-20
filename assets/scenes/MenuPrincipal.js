@@ -4,20 +4,19 @@ export default class MenuPrincipal extends Phaser.Scene {
     }
 
     create() {
-      this.add.image(0, 0, "tilesCielo1").setScale(2);
-      this.add.image(960, 320, "flyHome");
+      this.add.image(0, 0, "menuP").setOrigin(0);
 
       //PANTALLA COMPLETA
 
       //JUEGO
-      let botonJ = this.add.text(850, 620, "JUGAR", {
+      let botonJ = this.add.text(1400, 500, "JUGAR", {
         fontFamily: "impact",
         fontSize: "60px",
         fill: "#111111",
       }).setInteractive()
 
       botonJ.on("pointerover", () => {
-        this.add.text(850, 620, "JUGAR", {
+        this.add.text(1400, 500, "JUGAR", {
           fontFamily: "impact",
           fontSize: "60px",
           fill: "#FFFFFF",
@@ -27,21 +26,21 @@ export default class MenuPrincipal extends Phaser.Scene {
         this.scene.start("nivel1");})
 
       botonJ.on("pointerout", () => {
-        this.add.text(850, 620, "JUGAR", {
+        this.add.text(1400, 500, "JUGAR", {
           fontFamily: "impact",
           fontSize: "60px",
           fill: "#111111",
         });})
 
         //TUTORIAL
-        let botonT = this.add.text(550, 900, "Tutorial", {
+        let botonT = this.add.text(1380, 680, "Tutorial", {
           fontFamily: "impact",
           fontSize: "60px",
           fill: "#111111",
         }).setInteractive()
 
         botonT.on("pointerover", () => {
-          this.add.text(550, 900, "Tutorial", {
+          this.add.text(1380, 680, "Tutorial", {
             fontFamily: "impact",
             fontSize: "60px",
             fill: "#FFFFFF",
@@ -52,21 +51,21 @@ export default class MenuPrincipal extends Phaser.Scene {
           this.scene.launch("tutorial");})
 
         botonT.on("pointerout", () => {
-          this.add.text(550, 900, "Tutorial", {
+          this.add.text(1380, 680, "Tutorial", {
             fontFamily: "impact",
             fontSize: "60px",
             fill: "#111111",
           });})
 
           //CREDITOS
-          let botonC = this.add.text(1050, 900, "Créditos", {
+          let botonC = this.add.text(1370, 860, "Créditos", {
             fontFamily: "impact",
             fontSize: "60px",
             fill: "#111111",
           }).setInteractive()
   
           botonC.on("pointerover", () => {
-            this.add.text(1050, 900, "Créditos", {
+            this.add.text(1370, 860, "Créditos", {
               fontFamily: "impact",
               fontSize: "60px",
               fill: "#FFFFFF",
@@ -77,7 +76,7 @@ export default class MenuPrincipal extends Phaser.Scene {
             this.scene.launch("creditos");})
   
           botonC.on("pointerout", () => {
-            this.add.text(1050, 900, "Créditos", {
+            this.add.text(1370, 860, "Créditos", {
               fontFamily: "impact",
               fontSize: "60px",
               fill: "#111111",

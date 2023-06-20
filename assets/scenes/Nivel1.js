@@ -1,4 +1,4 @@
-import { MOVIMIENTOS, FRUTA_PUNTOS } from "../../utils.js";
+import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ } from "../../utils.js";
 
 export default class Nivel1 extends Phaser.Scene {
   constructor() {
@@ -13,7 +13,6 @@ export default class Nivel1 extends Phaser.Scene {
   }
 
   create() {
-    // create game objects
     const map = this.make.tilemap({ key: "map1" });
 
     const capaFondo = map.addTilesetImage("Fondo1", "tilesCielo1");
@@ -33,6 +32,7 @@ export default class Nivel1 extends Phaser.Scene {
 
     spawnPoint = map.findObject("objetos", (obj) => obj.name === "nido");
     this.nido = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "llegada");
+    this.nido.body.setSize(220, 1200);
 
     this.enemigos = this.physics.add.group();
 
@@ -48,10 +48,6 @@ export default class Nivel1 extends Phaser.Scene {
         }
       }
     });
-
-    // this.enemigos.children.each((aguila) => {
-    //   aguila.anims.play("aguilaVuela");
-    // });
 
     this.physics.add.overlap(this.jugador, this.enemigos, this.vidaMenos, null, this);
 
@@ -93,7 +89,7 @@ export default class Nivel1 extends Phaser.Scene {
       fill: "#111111"
     }).setOrigin(0.5);
 
-    this.puntuacionUI = this.add.image(800, 55, "uva1").setSize(0.01);
+    this.puntuacionUI = this.add.image(800, 55, "uvaUI").setSize(0.01);
     this.frutaTexto = this.add.text(855, 20, "0", {
       fontFamily: "impact",
       fontSize: "50px",
@@ -103,9 +99,26 @@ export default class Nivel1 extends Phaser.Scene {
     this.puntuacionUI.setScrollFactor(0);
     this.frutaTexto.setScrollFactor(0);
 
-    this.tres = this.add.image(150, 50, "vidas3");
-    this.dos = this.add.image(110, 50, "vidas2");
-    this.uno = this.add.image(70, 50, "vidas1");
+    this.tres = this.add.image(570, 60, "vida");
+    this.dos = this.add.image(480, 60, "vida");
+    this.uno = this.add.image(390, 60, "vida");
+    
+    let botonP = this.add.sprite(100, 60, "bPausa").setInteractive();
+    botonP.setFrame(0);
+
+    botonP.on("pointerover", () => {
+      botonP.setFrame(1);
+    })
+    botonP.on("pointerdown", () => {
+      botonP.setFrame(1);
+      this.scene.pause("nivel1");
+      this.scene.launch("pausa");
+    })
+     botonP.on("pointerout", () => {
+      botonP.setFrame(0);
+    })
+
+    botonP.setScrollFactor(0);
 
     this.tres.setScrollFactor(0);
     this.dos.setScrollFactor(0);
@@ -129,6 +142,7 @@ export default class Nivel1 extends Phaser.Scene {
   }
 
   update() {
+    this.cameras.main.setFollowOffset(-AVANZAR_IZQ, 0);
     
     if (this.cursors.space.isDown) {
       this.scene.pause("nivel1");
@@ -172,7 +186,7 @@ export default class Nivel1 extends Phaser.Scene {
     this.vidas--
     
     this.jugador.anims.stop(true);
-    this.jugador.anims.play("birdieChoca", true);   //hacer que dure menos
+    this.jugador.anims.play("birdieChoca", true);
 
     console.log("vida perdida -- vidas totales:", this.vidas);
    
@@ -189,7 +203,10 @@ export default class Nivel1 extends Phaser.Scene {
   }
 
   frutaRecolectada(jugador, fruta) {
-    fruta.disableBody(true, true);
+    fruta.anims.play("brillo", true);
+
+    fruta.disableBody();
+    //fruta.body.enable = false;
 
     this.puntaje += fruta.puntuacion;
 
@@ -204,6 +221,6 @@ export default class Nivel1 extends Phaser.Scene {
 
   esGanador(jugador, nido) {
     this.scene.pause("nivel1");
-    this.scene.launch("nivelSuperado", {puntaje: this.puntaje});
+    this.scene.launch("nivelSuperado", {puntaje1: this.puntaje});
   }
 }

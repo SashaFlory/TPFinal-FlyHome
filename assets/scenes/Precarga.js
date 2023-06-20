@@ -4,39 +4,33 @@ export default class Precarga extends Phaser.Scene {
   }
 
   preload() {
-    //TITULO
-    this.load.image("flyHome", "./public/images/Titulo.png");
-
     //FONDO Y PARALLAX
     this.load.tilemapTiledJSON("map1", "./public/tilemaps/nivel1.json");
     this.load.tilemapTiledJSON("map2", "./public/tilemaps/nivel2.json");
+    this.load.tilemapTiledJSON("map3", "./public/tilemaps/nivel3.json");
+    this.load.image("menuP", "./public/images/MenuPrincipal.png");
     this.load.image("tilesCielo1", "./public/images/Fondo1.png");
     this.load.image("tilesParallax1", "./public/images/Parallax1.png");
     this.load.image("tilesCielo2", "./public/images/Fondo2.png");
     this.load.image("tilesParallax2", "./public/images/Parallax2.png");
     this.load.image("tilesCielo3", "./public/images/Fondo3.png");
+    this.load.image("tilesParallax3", "./public/images/Parallax3.png");
 
     //INTERFAZ
-    this.load.image("vidas3", "./public/images/Corazon3.png");
-    this.load.image("vidas2", "./public/images/Corazon2.png");
-    this.load.image("vidas1", "./public/images/Corazon1.png");
+    this.load.image("vida", "./public/images/Corazon.png");
+    this.load.image("uvaUI", "./public/images/UvaUI.png");
+
+    this.load.spritesheet('bMenu', './public/images/BotonMenu.png', { frameWidth: 230, frameHeight: 45 });
+    this.load.spritesheet('bSiguiente', './public/images/BotonSiguiente.png', { frameWidth: 230, frameHeight: 45 });
+    this.load.spritesheet('bReintentar', './public/images/BotonReintentar.png', { frameWidth: 230, frameHeight: 45 });
+    this.load.spritesheet('bVolver', './public/images/BotonVolver.png', { frameWidth: 68, frameHeight: 86 });
+    this.load.spritesheet('bPausa', './public/images/BotonPausa.png', { frameWidth: 82, frameHeight: 81 });
 
     //POP UPs
-    this.load.image("perdiste", "./public/images/PerderPP.png");
+    this.load.image("popUp", "./public/images/PopUp.png");
     this.load.image("tutorial", "./public/images/TutorialPP.png");
     this.load.image("creditos", "./public/images/CreditosPP.png");
-    this.load.image("superado", "./public/images/SuperadoPP.png");
 
-    //BOTONES
-    this.load.image("bReintentar", "./public/images/BotonReintentar.png");
-    this.load.image("bReintentar-P", "./public/images/BotonReintentarP.png");
-    this.load.image("bMenu", "./public/images/BotonMenu.png");
-    this.load.image("bMenu-P", "./public/images/BotonMenuP.png");
-    this.load.image("bVolver", "./public/images/BotonVolver.png");
-    this.load.image("bVolver-P", "./public/images/BotonVolver-P.png");
-    this.load.image("bSiguiente", "./public/images/BotonSiguiente.png");
-    this.load.image("bSiguiente-P", "./public/images/BotonSiguiente-P.png");
-    
     //FRUTAS
     this.load.image("uva1", "./public/images/Uva1.png");
     this.load.image("uva2", "./public/images/Uva2.png");
@@ -52,12 +46,21 @@ export default class Precarga extends Phaser.Scene {
       frameHeight: 150,
     });
     this.load.spritesheet("avispa", "./public/images/Avispa.png", {
-      frameWidth: 186,
-      frameHeight: 148,
+      frameWidth: 187,
+      frameHeight: 133,
     });
+    this.load.spritesheet("paloma", "./public/images/Paloma.png", {
+      frameWidth: 300.5,
+      frameHeight: 209,
+    });
+
     this.load.spritesheet("llegada", "./public/images/Nido.png", {
       frameWidth: 223.5,
       frameHeight: 129,
+    });
+    this.load.spritesheet("recolectado", "./public/images/Recolectado.png", {
+      frameWidth: 162,
+      frameHeight: 165,
     });
 
   }
@@ -85,16 +88,29 @@ export default class Precarga extends Phaser.Scene {
 
     this.anims.create({
       key: "avispaVuela",
-      frames: this.anims.generateFrameNumbers("avispa", { start: 0, end: 1 }),
-      frameRate: 5,
+      frames: this.anims.generateFrameNumbers("avispa", { start: 0, end: 3 }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "palomaVuela",
+      frames: this.anims.generateFrameNumbers("paloma", { start: 0, end: 3 }),
+      frameRate: 4,
       repeat: -1,
     });
 
     this.anims.create({
       key: "pioPio",
       frames: this.anims.generateFrameNumbers("llegada", { start: 0, end: 1 }),
-      frameRate: 5,
+      frameRate: 4,
       repeat: -1,
+    });
+
+    this.anims.create({
+      key: "brillo",
+      frames: this.anims.generateFrameNumbers("recolectado", { start: 0, end: 3 }),
+      frameRate: 15
     });
 
     this.scene.start("menuPrincipal");

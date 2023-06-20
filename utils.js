@@ -1,16 +1,19 @@
 const MOVIMIENTOS = {
-    x1: 500,
-    x2: 650,
-    x3: 800,
-    y: 700
+    x1: 700,
+    x2: 850,
+    x3: 1000,
+    y: 900
 };
 
 const FRUTA_PUNTOS = {
-    puntosU1: 5,
-    puntosU2: 10,
-    puntosU3: 15
+    puntosU1: 25,
+    puntosU2: 50,
+    puntosU3: 100,
+    puntosC: -50
 };
 
+const AVANZAR_IZQ = 400;
+
 export {
-    MOVIMIENTOS, FRUTA_PUNTOS
+    MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ
 }

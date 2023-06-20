@@ -10,17 +10,19 @@ export default class Creditos extends Phaser.Scene {
         this.add.image(960, 540, "creditos");
         
        //boton VOLVER
-        let botonV = this.add.image(660, 780, "bVolver").setInteractive();
+        let botonV = this.add.sprite(660, 780, "bVolver").setInteractive();
+        botonV.setFrame(0);
+
         botonV.on("pointerover", () => {
-            botonV.setTexture("bVolver-P");
+            botonV.setFrame(1);
         })
         botonV.on("pointerdown", () => {
-            botonV.setTexture("bVolver-P");
+            botonV.setFrame(1);
             this.scene.start("menuPrincipal");
         })
-        botonV.on("pointerout", () => {
-            botonV.setTexture("bVolver");
-        })
+         botonV.on("pointerout", () => {
+             botonV.setFrame(0);
+         })
 
     }
   

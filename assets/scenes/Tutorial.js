@@ -10,16 +10,18 @@ export default class Tutorial extends Phaser.Scene {
         this.add.image(960, 540, "tutorial");
 
        //boton VOLVER
-        let botonV = this.add.image(660, 780, "bVolver").setInteractive();
-        botonV.on("pointerover", () => {
-            botonV.setTexture("bVolver-P");
-        })
-        botonV.on("pointerdown", () => {
-            botonV.setTexture("bVolver-P");
-            this.scene.start("menuPrincipal");
-        })
+       let botonV = this.add.sprite(660, 780, "bVolver").setInteractive();
+       botonV.setFrame(0);
+
+       botonV.on("pointerover", () => {
+           botonV.setFrame(1);
+       })
+       botonV.on("pointerdown", () => {
+           botonV.setFrame(1);
+           this.scene.start("menuPrincipal");
+       })
         botonV.on("pointerout", () => {
-            botonV.setTexture("bVolver");
+            botonV.setFrame(0);
         })
 
     }
