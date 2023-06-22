@@ -16,7 +16,7 @@ export default class Perder extends Phaser.Scene {
         })
         botonR.on("pointerdown", () => {
             botonR.setFrame(1);
-            this.scene.start("nivel1");
+            this.scene.start(this.obtenerNivelEnPausa());
         })
         botonR.on("pointerout", () => {
             botonR.setFrame(0);
@@ -30,12 +30,17 @@ export default class Perder extends Phaser.Scene {
         })
         botonM.on("pointerdown", () => {
             botonM.setFrame(1);
-            this.scene.stop("nivel1");
+            this.scene.stop(this.obtenerNivelEnPausa());
             this.scene.start("menuPrincipal");
         })
         botonM.on("pointerout", () => {
             botonM.setFrame(0);
         })
+    }
+
+    obtenerNivelEnPausa(){
+        const nivelEnPausa = this.scene.manager.scenes.find(scene => scene.scene.isPaused());
+        return nivelEnPausa? nivelEnPausa.scene.key : null;
     }
   
   }

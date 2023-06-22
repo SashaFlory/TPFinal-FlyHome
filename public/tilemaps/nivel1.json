@@ -546,7 +546,7 @@
                 {
                  "height":0,
                  "id":32,
-                 "name":"uva1",
+                 "name":"uva2",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -565,7 +565,7 @@
  "nextobjectid":33,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.8.5",
+ "tiledversion":"1.10.1",
  "tileheight":20,
  "tilesets":[
         {
@@ -596,6 +596,6 @@
         }],
  "tilewidth":20,
  "type":"map",
- "version":"1.8",
+ "version":"1.10",
  "width":600
 }

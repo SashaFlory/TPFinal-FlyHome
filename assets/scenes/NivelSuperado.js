@@ -1,14 +1,19 @@
+import { NIVELES } from "../../utils.js";
+
 export default class NivelSuperado extends Phaser.Scene {
     constructor() {
       super("nivelSuperado");
     }
 
     init(data) {
-        this.puntaje1 = data.puntaje1;
-        this.puntaje2 = data.puntaje2;
-        this.puntaje3 = data.puntaje3;
+        this.puntaje = data.puntaje;
+
+        this.puntajeFinal = data.puntosTotal;
 
         console.log(data);
+      
+        this.nivelActualNombre = this.obtenerNivelEnPausa();
+        this.nivelActualIndex = NIVELES.indexOf(this.nivelActualNombre);
     }
 
     create() {
@@ -19,7 +24,7 @@ export default class NivelSuperado extends Phaser.Scene {
         fontSize: "40px",
         fill: "#111111"
         });
-       
+
         //BOTON SIGUIENTE NIVEL
         let botonS = this.add.image(1100, 750, "bSiguiente").setInteractive();
         botonS.setFrame(0);
@@ -28,8 +33,8 @@ export default class NivelSuperado extends Phaser.Scene {
         })
         botonS.on("pointerdown", () => {
             botonS.setFrame(1);
-            this.scene.stop("nivel1");
-            this.scene.start("nivel2");
+            this.scene.stop(this.nivelActualNombre);
+            this.scene.start(NIVELES[this.nivelActualIndex + 1], {puntosTotal: this.puntajeFinal});
         })
         botonS.on("pointerout", () => {
             botonS.setFrame(0);
@@ -43,7 +48,7 @@ export default class NivelSuperado extends Phaser.Scene {
         })
         botonR.on("pointerdown", () => {
             botonR.setFrame(1);
-            this.scene.start("nivel1");
+            this.scene.start(this.obtenerNivelEnPausa());
         })
         botonR.on("pointerout", () => {
             botonR.setFrame(0);
@@ -57,20 +62,24 @@ export default class NivelSuperado extends Phaser.Scene {
         })
         botonM.on("pointerdown", () => {
             botonM.setFrame(1);
-            this.scene.stop("nivel1");
+            this.scene.stop(this.obtenerNivelEnPausa());
             this.scene.start("menuPrincipal");
         })
         botonM.on("pointerout", () => {
             botonM.setFrame(0);
         })
-        
     }
 
     update() {
         this.resumen.setText(
             "Puntos totales: " +
-            this.puntaje1
+            this.puntaje
         );
+    }
+
+    obtenerNivelEnPausa(){
+        const nivelEnPausa = this.scene.manager.scenes.find(scene => scene.scene.isPaused());
+        return nivelEnPausa? nivelEnPausa.scene.key : null;
     }
   
   }

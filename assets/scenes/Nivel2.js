@@ -1,11 +1,14 @@
-import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ } from "../../utils.js";
+import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, PUNTAJE_FINAL } from "../../utils.js";
 
 export default class Nivel2 extends Phaser.Scene {
   constructor() {
     super("nivel2");
   }
 
-  init() {
+  init(data) {
+    this.puntajeFinal = data.puntosTotal;
+    console.log("puntajeFinal:", this.puntajeFinal);
+
     this.vidas = 3;
     this.puntaje = 0;
 
@@ -62,17 +65,15 @@ export default class Nivel2 extends Phaser.Scene {
           uva1.puntuacion = FRUTA_PUNTOS.puntosU1;
           break;
         }
-      }
-    });
-  
-     objectosLayer.objects.forEach((objData) => {
-       //console.log(objData.name, objData.type, objData.x, objData.y);
-       const { x = 0, y = 0, name } = objData;
-       switch (name) {
-         case "uva2": {
-           const uva2 = this.frutas.create(x, y, "uva2");
-           uva2.puntuacion = FRUTA_PUNTOS.puntosU2;
-           break;
+        case "uva2": {
+          const uva2 = this.frutas.create(x, y, "uva2");
+          uva2.puntuacion = FRUTA_PUNTOS.puntosU2;
+          break;
+        }
+        case "tomate": {
+          const tomate = this.frutas.create(x, y, "tomate");
+          tomate.puntuacion = FRUTA_PUNTOS.puntosT;
+          break;
         }
       }
     });
@@ -81,6 +82,7 @@ export default class Nivel2 extends Phaser.Scene {
     this.physics.add.overlap(this.jugador, this.nido, this.esGanador, null, this);
   
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.keys = this.input.keyboard.addKeys({p:  Phaser.Input.Keyboard.KeyCodes.P});
   
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
@@ -144,9 +146,10 @@ export default class Nivel2 extends Phaser.Scene {
   }
   
   update() {
+
     this.cameras.main.setFollowOffset(-AVANZAR_IZQ, 0);
 
-    if (this.cursors.space.isDown) {
+    if (this.keys.p.isDown) {
       this.scene.pause("nivel2");
       this.scene.launch("pausa")
     }
@@ -172,7 +175,7 @@ export default class Nivel2 extends Phaser.Scene {
     )
   
     if(this.cuentaRegresiva <= 0) {
-      this.jugador.setVelocityX(MOVIMIENTOS.x2);
+      this.jugador.setVelocityX(MOVIMIENTOS.x3);
       this.jugador.anims.play("birdieVuela", true);
       this.cuentaTexto.setText("")
         
@@ -205,7 +208,9 @@ export default class Nivel2 extends Phaser.Scene {
   }
   
   frutaRecolectada(jugador, fruta) {
-    fruta.disableBody(true, true);
+    fruta.anims.play("brillo", true);
+
+    fruta.disableBody();
   
     this.puntaje += fruta.puntuacion;
   
@@ -219,8 +224,11 @@ export default class Nivel2 extends Phaser.Scene {
   }
   
   esGanador(jugador, nido) {
+    this.puntajeFinal = this.puntajeFinal + this.puntaje;
+    console.log("puntaje Final:", this.puntajeFinal);
+
     this.scene.pause("nivel2");
-    this.scene.launch("nivelSuperado", {puntaje2: this.puntaje});
+    this.scene.launch("nivelSuperado", {puntaje: this.puntaje, puntosTotal: this.puntajeFinal});
       
   }
 }

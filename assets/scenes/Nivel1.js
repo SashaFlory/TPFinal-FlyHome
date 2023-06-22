@@ -1,4 +1,4 @@
-import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ } from "../../utils.js";
+import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, PUNTAJE_FINAL } from "../../utils.js";
 
 export default class Nivel1 extends Phaser.Scene {
   constructor() {
@@ -6,6 +6,8 @@ export default class Nivel1 extends Phaser.Scene {
   }
 
   init() {
+    this.puntajeFinal = 0;
+
     this.vidas = 3;
     this.puntaje = 0;
 
@@ -60,18 +62,11 @@ export default class Nivel1 extends Phaser.Scene {
           uva1.puntuacion = FRUTA_PUNTOS.puntosU1;
           break;
         }
-      }
-    });
-
-     objectosLayer.objects.forEach((objData) => {
-       //console.log(objData.name, objData.type, objData.x, objData.y);
-       const { x = 0, y = 0, name } = objData;
-       switch (name) {
-         case "uva2": {
-           const uva2 = this.frutas.create(x, y, "uva2");
-           uva2.puntuacion = FRUTA_PUNTOS.puntosU2;
-           break;
-        }
+        case "uva2": {
+          const uva2 = this.frutas.create(x, y, "uva2");
+          uva2.puntuacion = FRUTA_PUNTOS.puntosU2;
+          break;
+       }
       }
     });
 
@@ -79,6 +74,7 @@ export default class Nivel1 extends Phaser.Scene {
     this.physics.add.overlap(this.jugador, this.nido, this.esGanador, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.keys = this.input.keyboard.addKeys({p:  Phaser.Input.Keyboard.KeyCodes.P});
 
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
@@ -144,7 +140,7 @@ export default class Nivel1 extends Phaser.Scene {
   update() {
     this.cameras.main.setFollowOffset(-AVANZAR_IZQ, 0);
     
-    if (this.cursors.space.isDown) {
+    if (this.keys.p.isDown) {
       this.scene.pause("nivel1");
       this.scene.launch("pausa")
     }
@@ -170,7 +166,7 @@ export default class Nivel1 extends Phaser.Scene {
     )
 
     if(this.cuentaRegresiva <= 0) {
-      this.jugador.setVelocityX(MOVIMIENTOS.x1);
+      this.jugador.setVelocityX(MOVIMIENTOS.x3);
       this.jugador.anims.play("birdieVuela", true);
       this.cuentaTexto.setText("")
 
@@ -220,7 +216,10 @@ export default class Nivel1 extends Phaser.Scene {
   }
 
   esGanador(jugador, nido) {
+    this.puntajeFinal = this.puntajeFinal + this.puntaje;
+    console.log("puntaje Final:", this.puntajeFinal);
+
     this.scene.pause("nivel1");
-    this.scene.launch("nivelSuperado", {puntaje1: this.puntaje});
+    this.scene.launch("nivelSuperado", {puntaje: this.puntaje, puntosTotal: this.puntajeFinal});
   }
 }

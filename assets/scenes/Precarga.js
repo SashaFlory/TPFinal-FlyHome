@@ -36,6 +36,7 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("uva2", "./public/images/Uva2.png");
     this.load.image("uva3", "./public/images/Uva3.png");
     this.load.image("cereza", "./public/images/Cereza.png");
+    this.load.image("tomate", "./public/images/Tomate.png");
     
     this.load.spritesheet("birdie", "./public/images/Personaje.png", {
       frameWidth: 218,
@@ -54,13 +55,13 @@ export default class Precarga extends Phaser.Scene {
       frameHeight: 209,
     });
 
-    this.load.spritesheet("llegada", "./public/images/Nido.png", {
-      frameWidth: 223.5,
-      frameHeight: 129,
-    });
     this.load.spritesheet("recolectado", "./public/images/Recolectado.png", {
       frameWidth: 162,
       frameHeight: 165,
+    });
+    this.load.spritesheet("llegada", "./public/images/Nido.png", {
+      frameWidth: 223.5,
+      frameHeight: 129,
     });
 
   }
