@@ -23,7 +23,7 @@ export default class MenuPrincipal extends Phaser.Scene {
         });})
 
       botonJ.on("pointerdown", () => {
-        this.scene.start("nivel1");})
+        this.scene.start("nivel2");})
 
       botonJ.on("pointerout", () => {
         this.add.text(1400, 500, "JUGAR", {

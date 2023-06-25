@@ -9,15 +9,11 @@ const FRUTA_PUNTOS = {
     puntosU1: 25,
     puntosU2: 50,
     puntosU3: 100,
-    puntosT: -50
+    puntosT: -100
 };
 
 const AVANZAR_IZQ = 400;
 
 let NIVELES = ["nivel1", "nivel2", "nivel3", "juegoGanado"];
 
-let PUNTAJE_FINAL;
-
-export {
-    MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, NIVELES, PUNTAJE_FINAL
-}
+export {MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, NIVELES}

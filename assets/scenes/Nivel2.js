@@ -1,4 +1,4 @@
-import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, PUNTAJE_FINAL } from "../../utils.js";
+import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ } from "../../utils.js";
 
 export default class Nivel2 extends Phaser.Scene {
   constructor() {
@@ -37,7 +37,7 @@ export default class Nivel2 extends Phaser.Scene {
   
     spawnPoint = map.findObject("objetos", (obj) => obj.name === "nido");
     this.nido = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "llegada");
-    this.nido.body.setSize(220, 1200);
+    this.nido.body.setSize(220, 1500);
   
     this.enemigos = this.physics.add.group();
   
@@ -92,22 +92,11 @@ export default class Nivel2 extends Phaser.Scene {
       fontSize: "300px",
       fill: "#111111"
     }).setOrigin(0.5);
-  
-    this.puntuacionUI = this.add.image(800, 55, "uvaUI").setSize(0.01);
-    this.frutaTexto = this.add.text(855, 20, "0", {
-      fontFamily: "impact",
-      fontSize: "50px",
-      fill: "#111111"
-    })
-  
-    this.puntuacionUI.setScrollFactor(0);
-    this.frutaTexto.setScrollFactor(0);
 
-    this.tres = this.add.image(570, 60, "vida");
-    this.dos = this.add.image(480, 60, "vida");
-    this.uno = this.add.image(390, 60, "vida");
-    
-    let botonP = this.add.sprite(100, 60, "bPausa").setInteractive();
+    this.barra = this.add.image(0, 2, "barraUI").setOrigin(0);
+    this.barra.setScrollFactor(0);
+  
+    let botonP = this.add.sprite(60, 60, "bPausa").setInteractive();
     botonP.setFrame(0);
 
     botonP.on("pointerover", () => {
@@ -115,18 +104,38 @@ export default class Nivel2 extends Phaser.Scene {
     })
     botonP.on("pointerdown", () => {
       botonP.setFrame(1);
-      this.scene.pause("nivel2");
+      this.scene.pause("nivel3");
       this.scene.launch("pausa");
     })
      botonP.on("pointerout", () => {
       botonP.setFrame(0);
     })
-
     botonP.setScrollFactor(0);
-  
-    this.tres.setScrollFactor(0);
-    this.dos.setScrollFactor(0);
+
+    this.uno = this.add.image(280, 60, "vida");
+    this.dos = this.add.image(370, 60, "vida");
+    this.tres = this.add.image(460, 60, "vida");
     this.uno.setScrollFactor(0);
+    this.dos.setScrollFactor(0);
+    this.tres.setScrollFactor(0);
+
+    this.tiempoUI = this.add.image(800, 55, "relojUI");
+    this.tiempoTexto = this.add.text(880, 30, "0", {
+      fontFamily: "impact",
+      fontSize: "50px",
+      fill: "#111111"
+    })
+    this.tiempoUI.setScrollFactor(0);
+    this.tiempoTexto.setScrollFactor(0);
+
+    this.puntuacionUI = this.add.image(1300, 60, "uvaUI");
+    this.puntuacionTexto = this.add.text(1380, 30, "0", {
+      fontFamily: "impact",
+      fontSize: "50px",
+      fill: "#111111"
+    })
+    this.puntuacionUI.setScrollFactor(0);
+    this.puntuacionTexto.setScrollFactor(0);
   
   
     //add camera to follow player
@@ -208,7 +217,13 @@ export default class Nivel2 extends Phaser.Scene {
   }
   
   frutaRecolectada(jugador, fruta) {
-    fruta.anims.play("brillo", true);
+
+    if (fruta.texture.key === "tomate") {
+      fruta.anims.play("salsaTomate", true);
+    } else {
+      fruta.anims.play("brillo", true);
+    }
+    
 
     fruta.disableBody();
   
@@ -217,7 +232,7 @@ export default class Nivel2 extends Phaser.Scene {
     console.log("fruta recolectada:", fruta, "puntos obtenidos:", fruta.puntuacion);
     console.log("puntos totales:", this.puntaje);
   
-    this.frutaTexto.setText(
+    this.puntuacionTexto.setText(
       this.puntaje
     );
   

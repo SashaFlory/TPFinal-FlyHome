@@ -17,8 +17,11 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("tilesParallax3", "./public/images/Parallax3.png");
 
     //INTERFAZ
+    this.load.image("barraUI", "./public/images/UIBarra.png");
     this.load.image("vida", "./public/images/Corazon.png");
-    this.load.image("uvaUI", "./public/images/UvaUI.png");
+    this.load.image("relojUI", "./public/images/UIReloj.png");
+    this.load.image("uvaUI", "./public/images/UIUva.png");
+    this.load.image("semillasUI", "./public/images/UISemillas.png");
 
     this.load.spritesheet('bMenu', './public/images/BotonMenu.png', { frameWidth: 230, frameHeight: 45 });
     this.load.spritesheet('bSiguiente', './public/images/BotonSiguiente.png', { frameWidth: 230, frameHeight: 45 });
@@ -36,7 +39,8 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("uva2", "./public/images/Uva2.png");
     this.load.image("uva3", "./public/images/Uva3.png");
     this.load.image("cereza", "./public/images/Cereza.png");
-    this.load.image("tomate", "./public/images/Tomate.png");
+
+    this.load.image("bala", "./public/images/Semilla.png");
     
     this.load.spritesheet("birdie", "./public/images/Personaje.png", {
       frameWidth: 218,
@@ -54,7 +58,15 @@ export default class Precarga extends Phaser.Scene {
       frameWidth: 300.5,
       frameHeight: 209,
     });
+    this.load.spritesheet("puf", "./public/images/NubeDesaparece.png", {
+      frameWidth: 283,
+      frameHeight: 231,
+    });
 
+    this.load.spritesheet("tomate", "./public/images/Tomate.png", {
+      frameWidth: 165,
+      frameHeight: 147,
+    });
     this.load.spritesheet("recolectado", "./public/images/Recolectado.png", {
       frameWidth: 162,
       frameHeight: 165,
@@ -111,7 +123,20 @@ export default class Precarga extends Phaser.Scene {
     this.anims.create({
       key: "brillo",
       frames: this.anims.generateFrameNumbers("recolectado", { start: 0, end: 3 }),
-      frameRate: 15
+      frameRate: 15,
+      hideOnComplete: true
+    });
+    this.anims.create({
+      key: "salsaTomate",
+      frames: this.anims.generateFrameNumbers("tomate", { start: 1, end: 4 }),
+      frameRate: 11,
+      hideOnComplete: true
+    });
+    this.anims.create({
+      key: "desaparece",
+      frames: this.anims.generateFrameNumbers("puf", { start: 0, end: 3 }),
+      frameRate: 11,
+      hideOnComplete: true
     });
 
     this.scene.start("menuPrincipal");
