@@ -1,4 +1,4 @@
-import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, PUNTAJE_FINAL } from "../../utils.js";
+import { MOVIMIENTOS, FRUTA_PUNTOS, AVANZAR_IZQ, ENEMIGO_SUMA } from "../../utils.js";
 
 export default class Nivel3 extends Phaser.Scene {
   constructor() {
@@ -7,10 +7,18 @@ export default class Nivel3 extends Phaser.Scene {
   init(data) {
     this.puntajeFinal = data.puntosTotal;
     console.log("puntajeFinal:", this.puntajeFinal);
+
+    this.cantidadEstrellas = 0;
     
     this.vidas = 3;
     this.puntaje = 0;
 
+    this.semillas = 0;
+
+    this.tiempo = 40;
+
+    console.log("BALAS: ", this.semillas);
+    
     this.cuentaRegresiva = 3;
   }
   
@@ -21,8 +29,10 @@ export default class Nivel3 extends Phaser.Scene {
     const capaParallax = map.addTilesetImage("Parallax3", "tilesParallax3");
   
     const fondoLayer = map.createLayer("fondo", capaFondo, 0, 0);
+    const nubeLayer = map.createLayer("nube", capaParallax, 0, 0);
     const lejanoLayer = map.createLayer("lejano", capaParallax, 0, 0);
     const cercanoLayer = map.createLayer("cercano", capaParallax, 0, 0);
+    const arbolesLayer = map.createLayer("arboles", capaParallax, 0, 0);
       
     const objectosLayer = map.getObjectLayer("objetos");
   
@@ -30,13 +40,14 @@ export default class Nivel3 extends Phaser.Scene {
     console.log(spawnPoint);
     this.jugador = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "birdie");
     this.jugador.setCollideWorldBounds(true);
+    this.jugador.body.setSize(210, 140);
   
     spawnPoint = map.findObject("objetos", (obj) => obj.name === "nido");
     this.nido = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "llegada");
     this.nido.body.setSize(220, 1200);
   
     this.enemigos = this.physics.add.group();
-  
+    this.balas = this.physics.add.group();
     this.frutas = this.physics.add.group();
 
     const margenLayer = map.createLayer("margen", capaParallax, 0, 0);
@@ -46,7 +57,8 @@ export default class Nivel3 extends Phaser.Scene {
       const { x = 0, y = 0, name } = objData;
       switch (name) {
         case "paloma": {
-          const paloma = this.enemigos.create(x, y, "paloma");
+          const paloma = this.enemigos.create(x, y, "paloma")
+          paloma.body.setSize(300, 150);
           break;
         }
       }
@@ -61,26 +73,43 @@ export default class Nivel3 extends Phaser.Scene {
         case "uva1": {
           const uva1 = this.frutas.create(x, y, "uva1");
           uva1.puntuacion = FRUTA_PUNTOS.puntosU1;
+          uva1.balas = 0;
            break;
         }
         case "uva2": {
           const uva2 = this.frutas.create(x, y, "uva2");
           uva2.puntuacion = FRUTA_PUNTOS.puntosU2;
+          uva2.balas = 0;
+          break;
+        }
+        case "uva3": {
+          const uva3 = this.frutas.create(x, y, "uva3");
+          uva3.puntuacion = FRUTA_PUNTOS.puntosU3;
+          uva3.balas = 0;
+          break;
+        }
+        case "tomate": {
+          const tomate = this.frutas.create(x, y, "tomate");
+          tomate.puntuacion = FRUTA_PUNTOS.puntosT;
+          tomate.balas = 0;
           break;
         }
         case "cereza": {
           const cereza = this.frutas.create(x, y, "cereza");
-          cereza.puntuacion = FRUTA_PUNTOS.puntosC;
+          cereza.puntuacion = 0;
+          cereza.balas = 3;
           break;
         }
       }
     });
   
     this.physics.add.overlap(this.jugador, this.frutas, this.frutaRecolectada, null, this);
+    this.physics.add.overlap(this.balas, this.enemigos, this.muereEnemigo, null, this);
     this.physics.add.overlap(this.jugador, this.nido, this.esGanador, null, this);
   
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keys = this.input.keyboard.addKeys({p:  Phaser.Input.Keyboard.KeyCodes.P});
+    this.input.keyboard.on("keydown-SPACE", this.disparar, this);
   
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
@@ -90,22 +119,16 @@ export default class Nivel3 extends Phaser.Scene {
       fontSize: "300px",
       fill: "#111111"
     }).setOrigin(0.5);
-  
-    this.puntuacionUI = this.add.image(800, 55, "uvaUI").setSize(0.01);
-    this.frutaTexto = this.add.text(855, 20, "0", {
-      fontFamily: "impact",
-      fontSize: "50px",
-      fill: "#111111"
-    })
-  
-    this.puntuacionUI.setScrollFactor(0);
-    this.frutaTexto.setScrollFactor(0);
-  
-    this.tres = this.add.image(570, 60, "vida");
-    this.dos = this.add.image(480, 60, "vida");
-    this.uno = this.add.image(390, 60, "vida");
-    
-    let botonP = this.add.sprite(100, 60, "bPausa").setInteractive();
+
+    const mapWidth = map.widthInPixels;
+    this.barra = this.physics.add.sprite(0, 2, "barraUI").setOrigin(0).setScrollFactor(0);
+    this.barra.setImmovable();
+    this.barra.body.setSize(mapWidth, 100);
+    this.barra.body.setOffset(0, 0);
+
+    this.physics.add.collider(this.jugador, this.barra);
+
+    let botonP = this.add.sprite(60, 60, "bPausa").setInteractive();
     botonP.setFrame(0);
 
     botonP.on("pointerover", () => {
@@ -119,24 +142,56 @@ export default class Nivel3 extends Phaser.Scene {
      botonP.on("pointerout", () => {
       botonP.setFrame(0);
     })
-
     botonP.setScrollFactor(0);
-  
-    this.tres.setScrollFactor(0);
-    this.dos.setScrollFactor(0);
+
+    this.uno = this.add.image(280, 60, "vida");
+    this.dos = this.add.image(370, 60, "vida");
+    this.tres = this.add.image(460, 60, "vida");
     this.uno.setScrollFactor(0);
+    this.dos.setScrollFactor(0);
+    this.tres.setScrollFactor(0);
+
+    this.tiempoUI = this.add.image(800, 55, "relojUI");
+    this.tiempoTexto = this.add.text(880, 30, "40", {
+      fontFamily: "impact",
+      fontSize: "50px",
+      fill: "#111111"
+    })
+    this.tiempoUI.setScrollFactor(0);
+    this.tiempoTexto.setScrollFactor(0);
+
+    this.puntuacionUI = this.add.image(1300, 60, "uvaUI");
+    this.puntuacionTexto = this.add.text(1380, 30, "0000", {
+      fontFamily: "impact",
+      fontSize: "50px",
+      fill: "#111111"
+    })
+    this.puntuacionUI.setScrollFactor(0);
+    this.puntuacionTexto.setScrollFactor(0);
+
+    this.semillasUI = this.add.image(1600, 60, "semillasUI");
+    this.semillasTexto = this.add.text(1680, 30, "00", {
+      fontFamily: "impact",
+      fontSize: "50px",
+      fill: "#111111"
+    })
+    this.semillasUI.setScrollFactor(0);
+    this.semillasTexto.setScrollFactor(0);
   
-  
-    //add camera to follow player
     this.cameras.main.startFollow(this.jugador);
-    // world bounds
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    //camera dont go out of the map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   
     this.time.addEvent({
       delay: 1000,
       callback: this.actualizarCuentaRegresiva,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.temporizador,
       callbackScope: this,
       loop: true,
     });
@@ -150,7 +205,6 @@ export default class Nivel3 extends Phaser.Scene {
       this.scene.pause("nivel3");
       this.scene.launch("pausa")
     }
-
     if (this.cursors.up.isDown) {
       this.jugador.setVelocityY(-MOVIMIENTOS.y);
     } else if (this.cursors.down.isDown) {
@@ -172,7 +226,7 @@ export default class Nivel3 extends Phaser.Scene {
     )
   
     if(this.cuentaRegresiva <= 0) {
-      this.jugador.setVelocityX(MOVIMIENTOS.x3);
+      this.jugador.setVelocityX(MOVIMIENTOS.x2);
       this.jugador.anims.play("birdieVuela", true);
       this.cuentaTexto.setText("")
       
@@ -181,6 +235,20 @@ export default class Nivel3 extends Phaser.Scene {
       });
     }
   }
+
+  temporizador() {
+    if (this.cuentaRegresiva<=0) {
+      if (this.tiempo === 0) {
+        this.tiempoTexto.setText("0")
+      };
+      
+      this.tiempoTexto.setText(
+        this.tiempo
+      );
+
+      this.tiempo--;
+    };
+  };
   
   vidaMenos(jugador, enemigo) {
     enemigo.disableBody(true, true);
@@ -188,7 +256,7 @@ export default class Nivel3 extends Phaser.Scene {
     this.vidas--
       
     this.jugador.anims.stop(true);
-    this.jugador.anims.play("birdieChoca", true);   //hacer que dure menos
+    this.jugador.anims.play("birdieChoca", true);
   
     console.log("vida perdida -- vidas totales:", this.vidas);
      
@@ -199,22 +267,61 @@ export default class Nivel3 extends Phaser.Scene {
     } else if(this.vidas<=0) {
       this.uno.visible = false;
       this.scene.launch("perder");
-      this.scene.pause("nivel2")
+      this.scene.pause("nivel3")
     }
   
+  }
+
+  disparar() {
+    if (this.semillas <= 0) {
+      return; // No se puede disparar si no hay balas disponibles
+    }
+    const bala = this.balas.create(this.jugador.x, this.jugador.y, "bala");
+    bala.setVelocityX(2600);
+    bala.body.setSize(60, 70)
+
+    this.semillas--;
+    console.log("BALAS: ", this.semillas);
+
+    this.semillasTexto.setText(
+      this.semillas
+    );
+  }
+
+  muereEnemigo(bala, enemigo) {
+    bala.disableBody(true, true);
+
+    enemigo.anims.stop();
+    enemigo.disableBody(true, true);
+
+    const explosion = this.add.sprite(enemigo.x, enemigo.y, "desaparece");
+    explosion.play("desaparece", true);
+
+    console.log("ENEMIGO DERROTADO");
+
+    this.puntaje += ENEMIGO_SUMA;
+    
+    this.puntuacionTexto.setText(
+      this.puntaje
+    );
   }
   
   frutaRecolectada(jugador, fruta) {
     fruta.anims.play("brillo", true);
-
     fruta.disableBody();
   
     this.puntaje += fruta.puntuacion;
+
+    this.semillas += fruta.balas;
+    this.semillasTexto.setText(
+      this.semillas
+    );
+    console.log("BALAS: ", this.semillas);
   
     console.log("fruta recolectada:", fruta, "puntos obtenidos:", fruta.puntuacion);
     console.log("puntos totales:", this.puntaje);
   
-    this.frutaTexto.setText(
+    this.puntuacionTexto.setText(
       this.puntaje
     );
   
@@ -224,8 +331,18 @@ export default class Nivel3 extends Phaser.Scene {
     this.puntajeFinal = this.puntajeFinal + this.puntaje;
     console.log("puntaje Final:", this.puntajeFinal);
 
+    if (this.puntaje >= 1000 && this.puntaje < 2300) {
+      this.cantidadEstrellas += 1;
+    } else if (this.puntaje >= 2300 && this.puntaje < 3200) {
+      this.cantidadEstrellas += 2;
+    } else if (this.puntaje >= 3200) {
+      this.cantidadEstrellas += 3;
+    };
+
+    console.log("ESTRELLAS: ", this.cantidadEstrellas);
+
     this.scene.pause("nivel3");
-    this.scene.launch("nivelSuperado", {puntaje: this.puntaje, puntosTotal: this.puntajeFinal});
+    this.scene.launch("nivelSuperado", {puntaje: this.puntaje, puntosTotal: this.puntajeFinal, cantidadEstrellas: this.cantidadEstrellas});
       
   }
 }

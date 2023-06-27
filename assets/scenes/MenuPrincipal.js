@@ -6,81 +6,48 @@ export default class MenuPrincipal extends Phaser.Scene {
     create() {
       this.add.image(0, 0, "menuP").setOrigin(0);
 
-      //PANTALLA COMPLETA
-
       //JUEGO
-      let botonJ = this.add.text(1400, 500, "JUGAR", {
-        fontFamily: "impact",
-        fontSize: "60px",
-        fill: "#111111",
-      }).setInteractive()
-
+      let botonJ = this.add.image(1370, 500, "bJugar").setInteractive();
+      botonJ.setFrame(0);
       botonJ.on("pointerover", () => {
-        this.add.text(1400, 500, "JUGAR", {
-          fontFamily: "impact",
-          fontSize: "60px",
-          fill: "#FFFFFF",
-        });})
-
+        botonJ.setFrame(1);
+      })
       botonJ.on("pointerdown", () => {
-        this.scene.start("nivel1");})
-
+        botonJ.setFrame(1);
+        this.scene.start("nivel1");
+      })
       botonJ.on("pointerout", () => {
-        this.add.text(1400, 500, "JUGAR", {
-          fontFamily: "impact",
-          fontSize: "60px",
-          fill: "#111111",
-        });})
+        botonJ.setFrame(0);
+      })
 
-        //TUTORIAL
-        let botonT = this.add.text(1380, 680, "Tutorial", {
-          fontFamily: "impact",
-          fontSize: "60px",
-          fill: "#111111",
-        }).setInteractive()
+      //TUTORIAL
+      let botonT = this.add.image(1370, 680, "bTutorial").setInteractive();
+      botonT.setFrame(0);
+      botonT.on("pointerover", () => {
+        botonT.setFrame(1);
+      })
+      botonT.on("pointerdown", () => {
+        botonT.setFrame(1);
+        this.scene.pause("menuPrincipal");
+        this.scene.launch("tutorial");})
+      botonT.on("pointerout", () => {
+        botonT.setFrame(0);
+      })
 
-        botonT.on("pointerover", () => {
-          this.add.text(1380, 680, "Tutorial", {
-            fontFamily: "impact",
-            fontSize: "60px",
-            fill: "#FFFFFF",
-          });})
+      //CREDITOS
+      let botonC = this.add.image(1370, 860, "bCreditos").setInteractive();
+      botonC.setFrame(0);
+      botonC.on("pointerover", () => {
+        botonC.setFrame(1);
+      })
+      botonC.on("pointerdown", () => {
+        botonC.setFrame(1);
+        this.scene.pause("menuPrincipal");
+        this.scene.launch("creditos");})
+      botonC.on("pointerout", () => {
+        botonC.setFrame(0);
+      })
 
-        botonT.on("pointerdown", () => {
-          this.scene.pause("menuPrincipal");
-          this.scene.launch("tutorial");})
-
-        botonT.on("pointerout", () => {
-          this.add.text(1380, 680, "Tutorial", {
-            fontFamily: "impact",
-            fontSize: "60px",
-            fill: "#111111",
-          });})
-
-          //CREDITOS
-          let botonC = this.add.text(1370, 860, "Créditos", {
-            fontFamily: "impact",
-            fontSize: "60px",
-            fill: "#111111",
-          }).setInteractive()
-  
-          botonC.on("pointerover", () => {
-            this.add.text(1370, 860, "Créditos", {
-              fontFamily: "impact",
-              fontSize: "60px",
-              fill: "#FFFFFF",
-            });})
-  
-          botonC.on("pointerdown", () => {
-            this.scene.pause("menuPrincipal");
-            this.scene.launch("creditos");})
-  
-          botonC.on("pointerout", () => {
-            this.add.text(1370, 860, "Créditos", {
-              fontFamily: "impact",
-              fontSize: "60px",
-              fill: "#111111",
-            });})
     }
   
   }

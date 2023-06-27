@@ -1,5 +1,3 @@
-import { PUNTAJE_FINAL } from "../../utils.js";
-
 export default class JuegoGanado extends Phaser.Scene {
     constructor() {
       super("juegoGanado");
