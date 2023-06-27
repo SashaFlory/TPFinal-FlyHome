@@ -8,6 +8,8 @@ export default class NivelSuperado extends Phaser.Scene {
     init(data) {
         this.puntaje = data.puntaje;
 
+        this.cantidadEstrellas = data.cantidadEstrellas;
+
         this.puntajeFinal = data.puntosTotal;
 
         console.log(data);
@@ -19,14 +21,24 @@ export default class NivelSuperado extends Phaser.Scene {
     create() {
         this.add.image(960, 540, "popUp");
 
-        this.resumen = this.add.text(750, 400, "Puntos totales: ", {
-        fontFamily: "impact",
-        fontSize: "40px",
-        fill: "#111111"
+        this.estrellaDos = this.add.image(850, 330, "estrella");
+        this.estrellaUno = this.add.image(960, 330, "estrella");
+        this.estrellaTres = this.add.image(1070, 330, "estrella");
+
+        this.resumen = this.add.text(868, 430, "Puntuación: ", {
+        fontFamily: "tahoma",
+        fontSize: "35px",
+        fill: "#CC6600",
         });
 
+        this.numeros = this.add.text(885, 470, "0000", {
+        fontFamily: "impact",
+        fontSize: "70px",
+        fill: "#CC6600"
+        })
+
         //BOTON SIGUIENTE NIVEL
-        let botonS = this.add.image(1100, 750, "bSiguiente").setInteractive();
+        let botonS = this.add.image(1120, 760, "bSiguiente").setInteractive();
         botonS.setFrame(0);
         botonS.on("pointerover", () => {
             botonS.setFrame(1);
@@ -41,7 +53,7 @@ export default class NivelSuperado extends Phaser.Scene {
         })
 
         //REINTENTAR
-        let botonR = this.add.sprite(960, 600, "bReintentar").setInteractive();
+        let botonR = this.add.sprite(800, 750, "bReintentar").setInteractive();
         botonR.setFrame(0);
         botonR.on("pointerover", () => {
             botonR.setFrame(1);
@@ -55,7 +67,7 @@ export default class NivelSuperado extends Phaser.Scene {
         })
 
         //MENU PRINCIPAL
-        let botonM = this.add.sprite(960, 660, "bMenu").setInteractive();
+        let botonM = this.add.sprite(960, 750, "bMenu").setInteractive();
         botonM.setFrame(0);
         botonM.on("pointerover", () => {
             botonM.setFrame(1);
@@ -71,10 +83,21 @@ export default class NivelSuperado extends Phaser.Scene {
     }
 
     update() {
-        this.resumen.setText(
-            "Puntos totales: " +
+        this.numeros.setText(
             this.puntaje
         );
+
+        if (this.cantidadEstrellas == 2) {
+            this.estrellaTres.visible = false;
+        } else if (this.cantidadEstrellas == 1) {
+            this.estrellaTres.visible = false;
+            this.estrellaDos.visible = false;
+        } else if (this.cantidadEstrellas == 0) {
+            this.estrellaTres.visible = false;
+            this.estrellaDos.visible = false;
+            this.estrellaUno.visible = false;
+        };
+
     }
 
     obtenerNivelEnPausa(){

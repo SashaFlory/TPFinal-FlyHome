@@ -22,10 +22,15 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("relojUI", "./public/images/UIReloj.png");
     this.load.image("uvaUI", "./public/images/UIUva.png");
     this.load.image("semillasUI", "./public/images/UISemillas.png");
+    this.load.image("estrella", "./public/images/Estrella.png");
+    this.load.image("pausaPP", "./public/images/Pausa.png");
 
-    this.load.spritesheet('bMenu', './public/images/BotonMenu.png', { frameWidth: 230, frameHeight: 45 });
-    this.load.spritesheet('bSiguiente', './public/images/BotonSiguiente.png', { frameWidth: 230, frameHeight: 45 });
-    this.load.spritesheet('bReintentar', './public/images/BotonReintentar.png', { frameWidth: 230, frameHeight: 45 });
+    this.load.spritesheet('bMenu', './public/images/BotonMenu.png', { frameWidth: 106.5, frameHeight: 112 });
+    this.load.spritesheet('bJugar', './public/images/BotonJugar.png', { frameWidth: 224.5, frameHeight: 68 });
+    this.load.spritesheet('bTutorial', './public/images/BotonTutorial.png', { frameWidth: 307.5, frameHeight: 51 });
+    this.load.spritesheet('bCreditos', './public/images/BotonCreditos.png', { frameWidth: 307.5, frameHeight: 51 });
+    this.load.spritesheet('bSiguiente', './public/images/BotonSiguiente.png', { frameWidth: 96.5, frameHeight: 62 });
+    this.load.spritesheet('bReintentar', './public/images/BotonReintentar.png', { frameWidth: 73.5, frameHeight: 86 });
     this.load.spritesheet('bVolver', './public/images/BotonVolver.png', { frameWidth: 68, frameHeight: 86 });
     this.load.spritesheet('bPausa', './public/images/BotonPausa.png', { frameWidth: 82, frameHeight: 81 });
 

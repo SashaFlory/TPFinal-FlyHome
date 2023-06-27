@@ -7,9 +7,15 @@ export default class Perder extends Phaser.Scene {
     
     create() {
         this.add.image(960, 540, "popUp");
+
+        this.add.text(820, 320, "¡Has perdido! ", {
+            fontFamily: "impact",
+            fontSize: "50px",
+            fill: "#CC6600",
+            });
        
         //REINTENTAR
-        let botonR = this.add.sprite(960, 600, "bReintentar").setInteractive();
+        let botonR = this.add.sprite(820, 780, "bReintentar").setInteractive();
         botonR.setFrame(0);
         botonR.on("pointerover", () => {
             botonR.setFrame(1);
@@ -23,7 +29,7 @@ export default class Perder extends Phaser.Scene {
         })
 
         //MENU PRINCIPAL
-        let botonM = this.add.sprite(960, 660, "bMenu").setInteractive();
+        let botonM = this.add.sprite(1090, 780, "bMenu").setInteractive();
         botonM.setFrame(0);
         botonM.on("pointerover", () => {
             botonM.setFrame(1);

@@ -4,20 +4,18 @@ export default class Pausa extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(960, 500, "popUp");
+        this.add.image(0, 0, "pausaPP").setOrigin(0);
 
-        this.add.text(900, 300, "PAUSA", {
+        this.add.text(830, 300, "PAUSA", {
             fontFamily: "impact",
-            fontSize: "50px",
+            fontSize: "100px",
             fill: "#CC6600"
         })
         
-        this.cursors = this.input.keyboard.createCursorKeys();
-
         this.keys = this.input.keyboard.addKeys({p:  Phaser.Input.Keyboard.KeyCodes.P});
        
         //REINTENTAR
-        let botonR = this.add.sprite(960, 600, "bReintentar").setInteractive();
+        let botonR = this.add.sprite(1150, 550, "bReintentar").setInteractive();
         botonR.setFrame(0);
         botonR.on("pointerover", () => {
             botonR.setFrame(1);
@@ -31,7 +29,7 @@ export default class Pausa extends Phaser.Scene {
         })
 
         //MENU PRINCIPAL
-        let botonM = this.add.sprite(960, 660, "bMenu").setInteractive();
+        let botonM = this.add.sprite(960, 550, "bMenu").setInteractive();
         botonM.setFrame(0);
         botonM.on("pointerover", () => {
             botonM.setFrame(1);
@@ -46,7 +44,7 @@ export default class Pausa extends Phaser.Scene {
         })
 
         //boton VOLVER
-        let botonV = this.add.sprite(660, 750, "bVolver").setInteractive();
+        let botonV = this.add.sprite(755, 555, "bVolver").setInteractive();
         botonV.setFrame(0);
 
         botonV.on("pointerover", () => {
