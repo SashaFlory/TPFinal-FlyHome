@@ -19,6 +19,8 @@ export default class NivelSuperado extends Phaser.Scene {
     }
 
     create() {
+        this.add.image(0, 0, "pausaPP").setOrigin(0);
+
         this.add.image(960, 540, "popUp");
 
         this.estrellaDos = this.add.image(850, 330, "estrella");

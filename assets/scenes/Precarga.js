@@ -15,6 +15,7 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("tilesParallax2", "./public/images/Parallax2.png");
     this.load.image("tilesCielo3", "./public/images/Fondo3.png");
     this.load.image("tilesParallax3", "./public/images/Parallax3.png");
+    this.load.image("ganador", "./public/images/JuegoGanado.png");
 
     //INTERFAZ
     this.load.image("barraUI", "./public/images/UIBarra.png");
@@ -23,7 +24,6 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("uvaUI", "./public/images/UIUva.png");
     this.load.image("semillasUI", "./public/images/UISemillas.png");
     this.load.image("estrella", "./public/images/Estrella.png");
-    this.load.image("pausaPP", "./public/images/Pausa.png");
 
     this.load.spritesheet('bMenu', './public/images/BotonMenu.png', { frameWidth: 106.5, frameHeight: 112 });
     this.load.spritesheet('bJugar', './public/images/BotonJugar.png', { frameWidth: 224.5, frameHeight: 68 });
@@ -35,9 +35,11 @@ export default class Precarga extends Phaser.Scene {
     this.load.spritesheet('bPausa', './public/images/BotonPausa.png', { frameWidth: 82, frameHeight: 81 });
 
     //POP UPs
+    this.load.image("pausaPP", "./public/images/Pausa.png");
     this.load.image("popUp", "./public/images/PopUp.png");
     this.load.image("tutorial", "./public/images/TutorialPP.png");
     this.load.image("creditos", "./public/images/CreditosPP.png");
+    this.load.image("perdedor", "./public/images/PerderPP.png");
 
     //FRUTAS
     this.load.image("uva1", "./public/images/Uva1.png");

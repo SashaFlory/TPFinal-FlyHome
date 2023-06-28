@@ -6,16 +6,18 @@ export default class Perder extends Phaser.Scene {
     //PROBAR CAMBIO ENTRE ESCENA ACTUAL CON SENTENCIA IF
     
     create() {
-        this.add.image(960, 540, "popUp");
+        this.add.image(0, 0, "pausaPP").setOrigin(0);
 
-        this.add.text(820, 320, "¡Has perdido! ", {
+        this.add.image(960, 540, "perdedor");
+
+        this.add.text(790, 270, "¡Has perdido! ", {
             fontFamily: "impact",
-            fontSize: "50px",
+            fontSize: "60px",
             fill: "#CC6600",
             });
        
         //REINTENTAR
-        let botonR = this.add.sprite(820, 780, "bReintentar").setInteractive();
+        let botonR = this.add.sprite(840, 760, "bReintentar").setInteractive();
         botonR.setFrame(0);
         botonR.on("pointerover", () => {
             botonR.setFrame(1);
@@ -29,7 +31,7 @@ export default class Perder extends Phaser.Scene {
         })
 
         //MENU PRINCIPAL
-        let botonM = this.add.sprite(1090, 780, "bMenu").setInteractive();
+        let botonM = this.add.sprite(1060, 750, "bMenu").setInteractive();
         botonM.setFrame(0);
         botonM.on("pointerover", () => {
             botonM.setFrame(1);
