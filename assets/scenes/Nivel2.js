@@ -20,6 +20,14 @@ export default class Nivel2 extends Phaser.Scene {
   }
   
   create() {
+    this.musica = this.sound.add("juegoMusica");
+    this.musica.play({ loop: true });
+    this.musica.setVolume(0.30);
+
+    this.sound.add("cuak");
+    this.sound.add("recolectado");
+    this.sound.add("tomate");
+
     const map = this.make.tilemap({ key: "map2" });
   
     const capaFondo = map.addTilesetImage("Fondo2", "tilesCielo2");
@@ -121,6 +129,7 @@ export default class Nivel2 extends Phaser.Scene {
     botonP.on("pointerdown", () => {
       botonP.setFrame(1);
       this.scene.pause("nivel2");
+      this.musica.pause();
       this.scene.launch("pausa");
     })
      botonP.on("pointerout", () => {
@@ -183,7 +192,10 @@ export default class Nivel2 extends Phaser.Scene {
 
     if (this.keys.p.isDown) {
       this.scene.pause("nivel2");
-      this.scene.launch("pausa")
+      this.musica.pause();
+      this.scene.launch("pausa");
+    } else {
+      this.musica.resume();
     }
 
     if (this.cursors.up.isDown) {
@@ -233,6 +245,8 @@ export default class Nivel2 extends Phaser.Scene {
 
   vidaMenos(jugador, enemigo) {
     enemigo.disableBody(true, true);
+
+    this.sound.play("cuak");
       
     this.vidas--
       
@@ -248,7 +262,8 @@ export default class Nivel2 extends Phaser.Scene {
     } else if(this.vidas<=0) {
       this.uno.visible = false;
       this.scene.launch("perder");
-      this.scene.pause("nivel2")
+      this.scene.pause("nivel2");
+      this.musica.stop();
     }
   
   }
@@ -257,11 +272,12 @@ export default class Nivel2 extends Phaser.Scene {
 
     if (fruta.texture.key === "tomate") {
       fruta.anims.play("salsaTomate", true);
+      this.sound.play("tomate");
     } else {
       fruta.anims.play("brillo", true);
+      this.sound.play("recolectado");
     }
     
-
     fruta.disableBody();
   
     this.puntaje += fruta.puntuacion;
@@ -290,6 +306,7 @@ export default class Nivel2 extends Phaser.Scene {
     console.log("ESTRELLAS: ", this.cantidadEstrellas);
 
     this.scene.pause("nivel2");
+    this.musica.stop();
     this.scene.launch("nivelSuperado", {puntaje: this.puntaje, puntosTotal: this.puntajeFinal, cantidadEstrellas: this.cantidadEstrellas});
       
   }

@@ -4,8 +4,14 @@ export default class MenuPrincipal extends Phaser.Scene {
     }
 
     create() {
-      this.add.image(0, 0, "menuP").setOrigin(0);
+      this.musica = this.sound.add("menuMusica");
+      this.musica.play({ loop: true });
+      this.musica.setVolume(0.5);
 
+      this.sound.add("entrarUI");
+
+      this.add.image(0, 0, "menuP").setOrigin(0);
+      
       //JUEGO
       let botonJ = this.add.image(1370, 500, "bJugar").setInteractive();
       botonJ.setFrame(0);
@@ -14,7 +20,10 @@ export default class MenuPrincipal extends Phaser.Scene {
       })
       botonJ.on("pointerdown", () => {
         botonJ.setFrame(1);
+        this.sound.play("entrarUI");
         this.scene.start("nivel1");
+        this.musica.stop();
+        this.scene.stop("menuPrincipal");
       })
       botonJ.on("pointerout", () => {
         botonJ.setFrame(0);
@@ -28,6 +37,7 @@ export default class MenuPrincipal extends Phaser.Scene {
       })
       botonT.on("pointerdown", () => {
         botonT.setFrame(1);
+        this.sound.play("entrarUI");
         this.scene.pause("menuPrincipal");
         this.scene.launch("tutorial");})
       botonT.on("pointerout", () => {
@@ -42,6 +52,7 @@ export default class MenuPrincipal extends Phaser.Scene {
       })
       botonC.on("pointerdown", () => {
         botonC.setFrame(1);
+        this.sound.play("entrarUI");
         this.scene.pause("menuPrincipal");
         this.scene.launch("creditos");})
       botonC.on("pointerout", () => {

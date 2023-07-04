@@ -3,12 +3,14 @@ export default class Perder extends Phaser.Scene {
       super("perder");
     }
 
-    //PROBAR CAMBIO ENTRE ESCENA ACTUAL CON SENTENCIA IF
-    
     create() {
-        this.add.image(0, 0, "pausaPP").setOrigin(0);
+        this.sound.add("entrarUI");
+        this.sound.add("derrota");
 
+        this.add.image(0, 0, "pausaPP").setOrigin(0);
         this.add.image(960, 540, "perdedor");
+
+        this.sound.play("derrota");
 
         this.add.text(790, 270, "¡Has perdido! ", {
             fontFamily: "impact",
@@ -24,6 +26,7 @@ export default class Perder extends Phaser.Scene {
         })
         botonR.on("pointerdown", () => {
             botonR.setFrame(1);
+            this.sound.play("entrarUI");
             this.scene.start(this.obtenerNivelEnPausa());
         })
         botonR.on("pointerout", () => {
@@ -38,6 +41,7 @@ export default class Perder extends Phaser.Scene {
         })
         botonM.on("pointerdown", () => {
             botonM.setFrame(1);
+            this.sound.play("entrarUI");
             this.scene.stop(this.obtenerNivelEnPausa());
             this.scene.start("menuPrincipal");
         })

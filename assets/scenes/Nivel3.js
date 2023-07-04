@@ -23,6 +23,18 @@ export default class Nivel3 extends Phaser.Scene {
   }
   
   create() {
+    this.musica = this.sound.add("juegoMusica");
+    this.musica.play({ loop: true });
+    this.musica.setVolume(0.30);
+
+    this.sound.add("cuenta");
+    
+    this.sound.add("entrarUI");
+    this.sound.add("cuak");
+    this.sound.add("recolectado");
+    this.sound.add("tomate");
+    this.sound.add("disparo");
+
     const map = this.make.tilemap({ key: "map3" });
 
     const capaFondo = map.addTilesetImage("Fondo3", "tilesCielo3");
@@ -136,7 +148,9 @@ export default class Nivel3 extends Phaser.Scene {
     })
     botonP.on("pointerdown", () => {
       botonP.setFrame(1);
+      this.sound.play("entrarUI");
       this.scene.pause("nivel3");
+      this.musica.pause();
       this.scene.launch("pausa");
     })
      botonP.on("pointerout", () => {
@@ -202,8 +216,12 @@ export default class Nivel3 extends Phaser.Scene {
     this.cameras.main.setFollowOffset(-AVANZAR_IZQ, 0);
 
     if (this.keys.p.isDown) {
+      this.sound.play("entrarUI");
       this.scene.pause("nivel3");
+      this.musica.pause();
       this.scene.launch("pausa")
+    } else {
+      this.musica.resume();
     }
     if (this.cursors.up.isDown) {
       this.jugador.setVelocityY(-MOVIMIENTOS.y);
@@ -252,6 +270,8 @@ export default class Nivel3 extends Phaser.Scene {
   
   vidaMenos(jugador, enemigo) {
     enemigo.disableBody(true, true);
+
+    this.sound.play("cuak");
       
     this.vidas--
       
@@ -267,7 +287,8 @@ export default class Nivel3 extends Phaser.Scene {
     } else if(this.vidas<=0) {
       this.uno.visible = false;
       this.scene.launch("perder");
-      this.scene.pause("nivel3")
+      this.scene.pause("nivel3");
+      this.musica.stop();
     }
   
   }
@@ -276,6 +297,7 @@ export default class Nivel3 extends Phaser.Scene {
     if (this.semillas <= 0) {
       return; // No se puede disparar si no hay balas disponibles
     }
+
     const bala = this.balas.create(this.jugador.x, this.jugador.y, "bala");
     bala.setVelocityX(2600);
     bala.body.setSize(60, 70)
@@ -290,6 +312,8 @@ export default class Nivel3 extends Phaser.Scene {
 
   muereEnemigo(bala, enemigo) {
     bala.disableBody(true, true);
+    
+    this.sound.play("disparo");
 
     enemigo.anims.stop();
     enemigo.disableBody(true, true);
@@ -307,9 +331,16 @@ export default class Nivel3 extends Phaser.Scene {
   }
   
   frutaRecolectada(jugador, fruta) {
-    fruta.anims.play("brillo", true);
     fruta.disableBody();
-  
+
+    if (fruta.texture.key === "tomate") {
+      fruta.anims.play("salsaTomate", true);
+      this.sound.play("tomate");
+    } else {
+      fruta.anims.play("brillo", true);
+      this.sound.play("recolectado");
+    }
+
     this.puntaje += fruta.puntuacion;
 
     this.semillas += fruta.balas;
@@ -342,6 +373,7 @@ export default class Nivel3 extends Phaser.Scene {
     console.log("ESTRELLAS: ", this.cantidadEstrellas);
 
     this.scene.pause("nivel3");
+    this.musica.stop();
     this.scene.launch("nivelSuperado", {puntaje: this.puntaje, puntosTotal: this.puntajeFinal, cantidadEstrellas: this.cantidadEstrellas});
       
   }

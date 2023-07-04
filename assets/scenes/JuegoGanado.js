@@ -4,40 +4,47 @@ export default class JuegoGanado extends Phaser.Scene {
     }
 
     init (data) {
-        this.puntajeFinal = data.puntosTotal;
+        //this.puntajeFinal = data.puntosTotal;
+        this.puntajeFinal = 1580;
 
         console.log("puntajeFinal:", this.puntajeFinal);
     }
 
     create() {
-        this.add.image(0, 0, "ganador").setOrigin(0);
+        this.sound.add("victoria");
+        this.sound.add("entrarUI");
+        
+        this.sound.play("victoria");
 
-        this.add.text(370, 120, "Puntuación final:", {
+        this.add.image(0, 0, "ganador").setOrigin(0);
+        
+        this.add.text(355, 220, "Puntuación final:", {
         fontFamily: "tahoma",
         fontSize: "40px",
-        fill: "#111111"
+        fill: "#4E3A23"
         })
 
-        this.add.text(350, 180, this.puntajeFinal, {
+        this.add.text(350, 280, this.puntajeFinal, {
         fontFamily: "impact",
         fontSize: "150px",
-        fill: "#111111"
+        fill: "#4E3A23"
         })
 
-        this.add.text(230, 500, "Gracias por jugar :)", {
+        this.add.text(245, 555, "¡Gracias por jugar!", {
             fontFamily: "tahoma",
-            fontSize: "70px",
-            fill: "#111111"
+            fontSize: "65px",
+            fill: "#4E3A23"
             })
        
         //MENU PRINCIPAL
-        let botonM = this.add.sprite(510, 800, "bMenu").setInteractive();
+        let botonM = this.add.sprite(80, 80, "bMenu").setInteractive();
         botonM.setFrame(0);
         botonM.on("pointerover", () => {
             botonM.setFrame(1);
         })
         botonM.on("pointerdown", () => {
             botonM.setFrame(1);
+            this.sound.play("entrarUI");
             this.scene.stop("juegoGanado");
             this.scene.start("menuPrincipal");
         })

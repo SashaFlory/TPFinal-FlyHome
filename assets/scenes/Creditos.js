@@ -6,8 +6,11 @@ export default class Creditos extends Phaser.Scene {
     }
 
     create() {
-        //PARA LAS ESCENAS TUTORIAL Y CRÉDITOS HACER THIS.SCENE.LAUNCH --> POP UP
+        this.sound.add("salirUI");
+
         this.add.image(960, 540, "creditos");
+
+        this.musica = this.scene.get('menuPrincipal').music;
         
        //boton VOLVER
         let botonV = this.add.sprite(680, 770, "bVolver").setInteractive();
@@ -18,7 +21,9 @@ export default class Creditos extends Phaser.Scene {
         })
         botonV.on("pointerdown", () => {
             botonV.setFrame(1);
-            this.scene.start("menuPrincipal");
+            this.sound.play("salirUI");
+            this.scene.resume("menuPrincipal");
+            this.scene.stop("creditos");
         })
          botonV.on("pointerout", () => {
              botonV.setFrame(0);

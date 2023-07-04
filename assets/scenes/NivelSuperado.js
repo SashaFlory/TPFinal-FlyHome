@@ -19,9 +19,13 @@ export default class NivelSuperado extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0, 0, "pausaPP").setOrigin(0);
+        this.sound.add("entrarUI");
+        this.sound.add("victoria");
 
+        this.add.image(0, 0, "pausaPP").setOrigin(0);
         this.add.image(960, 540, "popUp");
+
+        this.sound.play("victoria");
 
         this.estrellaDos = this.add.image(850, 330, "estrella");
         this.estrellaUno = this.add.image(960, 330, "estrella");
@@ -47,6 +51,7 @@ export default class NivelSuperado extends Phaser.Scene {
         })
         botonS.on("pointerdown", () => {
             botonS.setFrame(1);
+            this.sound.play("entrarUI");
             this.scene.stop(this.nivelActualNombre);
             this.scene.start(NIVELES[this.nivelActualIndex + 1], {puntosTotal: this.puntajeFinal});
         })

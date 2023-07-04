@@ -4,6 +4,9 @@ export default class Precarga extends Phaser.Scene {
   }
 
   preload() {
+    //VIDEO
+    this.load.video('presentacion', "./public/video/Intro.mp4");
+
     //FONDO Y PARALLAX
     this.load.tilemapTiledJSON("map1", "./public/tilemaps/nivel1.json");
     this.load.tilemapTiledJSON("map2", "./public/tilemaps/nivel2.json");
@@ -16,6 +19,19 @@ export default class Precarga extends Phaser.Scene {
     this.load.image("tilesCielo3", "./public/images/Fondo3.png");
     this.load.image("tilesParallax3", "./public/images/Parallax3.png");
     this.load.image("ganador", "./public/images/JuegoGanado.png");
+
+    //MUSICA Y FX
+    this.load.audio('menuMusica', "./public/audio/SpringDay.mp3");
+    this.load.audio('juegoMusica', "./public/audio/HappyUkelele.mp3");
+    this.load.audio('entrarUI', "./public/audio/Entrar.mp3");
+    this.load.audio('salirUI', "./public/audio/Salir.mp3");
+    this.load.audio('cuenta', "./public/audio/CuentaR.mp3");
+    this.load.audio('cuak', "./public/audio/Cuak.mp3");
+    this.load.audio('recolectado', "./public/audio/Recolectado.mp3");
+    this.load.audio('victoria', "./public/audio/Victoria.mp3");
+    this.load.audio('derrota', "./public/audio/Derrota.mp3");
+    this.load.audio('tomate', "./public/audio/Tomate.mp3");
+    this.load.audio('disparo', "./public/audio/Disparo.mp3");
 
     //INTERFAZ
     this.load.image("barraUI", "./public/images/UIBarra.png");
@@ -146,6 +162,18 @@ export default class Precarga extends Phaser.Scene {
       hideOnComplete: true
     });
 
-    this.scene.start("menuPrincipal");
+    let presentacion = this.add.video(0, 0, "presentacion").setOrigin(0).setInteractive();
+
+    presentacion.play();
+
+    presentacion.on("complete", () => {
+      this.scene.start("menuPrincipal");
+    });
+
+    presentacion.on("pointerdown", () => {
+      this.scene.start("menuPrincipal");
+    });
+
+    
   }
 }

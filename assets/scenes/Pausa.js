@@ -4,6 +4,9 @@ export default class Pausa extends Phaser.Scene {
     }
 
     create() {
+        this.sound.add("entrarUI");
+        this.sound.add("salirUI");
+
         this.add.image(0, 0, "pausaPP").setOrigin(0);
 
         this.add.text(830, 300, "PAUSA", {
@@ -22,7 +25,9 @@ export default class Pausa extends Phaser.Scene {
         })
         botonR.on("pointerdown", () => {
             botonR.setFrame(1);
+            this.sound.play("entrarUI");
             this.scene.start(this.obtenerNivelEnPausa());
+            this.scene.stop("pausa");
         })
         botonR.on("pointerout", () => {
             botonR.setFrame(0);
@@ -36,6 +41,7 @@ export default class Pausa extends Phaser.Scene {
         })
         botonM.on("pointerdown", () => {
             botonM.setFrame(1);
+            this.sound.play("entrarUI");
             this.scene.stop(this.obtenerNivelEnPausa());
             this.scene.start("menuPrincipal");
         })
@@ -52,6 +58,7 @@ export default class Pausa extends Phaser.Scene {
         })
         botonV.on("pointerdown", () => {
             botonV.setFrame(1);
+            this.sound.play("salirUI");
             this.scene.resume(this.obtenerNivelEnPausa());
             this.scene.stop("pausa");
         })
@@ -63,6 +70,7 @@ export default class Pausa extends Phaser.Scene {
     update() {
         
         if (this.keys.p.isDown) {
+            this.sound.play("salirUI");
             this.scene.resume(this.obtenerNivelEnPausa());
             this.scene.stop("pausa");
         }
