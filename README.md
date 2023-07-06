@@ -1,5 +1,7 @@
 # Trabajo Práctico Final
 
+¡Hola! Soy Sasha Flory, tengo 20 años y soy estudiante de la Licenciatura en Producción de Videojuegos y Entretenimiento Digital.
+
 <p align="center">
   <img src="public/images/Titulo.png" alt="Logo de Fly Home" width= 600>
 </p>
