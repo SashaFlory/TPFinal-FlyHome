@@ -34,6 +34,7 @@ export default class Precarga extends Phaser.Scene {
     this.load.audio('disparo', "./public/audio/Disparo.mp3");
 
     //INTERFAZ
+    this.load.image("titulo", "./public/images/Titulo.png");
     this.load.image("barraUI", "./public/images/UIBarra.png");
     this.load.image("vida", "./public/images/Corazon.png");
     this.load.image("relojUI", "./public/images/UIReloj.png");
@@ -162,7 +163,7 @@ export default class Precarga extends Phaser.Scene {
       hideOnComplete: true
     });
 
-    let presentacion = this.add.video(0, 0, "presentacion").setOrigin(0).setInteractive();
+    let presentacion = this.add.video(0, 0, "presentacion").setOrigin(0).setInteractive(); 
 
     presentacion.play();
 
